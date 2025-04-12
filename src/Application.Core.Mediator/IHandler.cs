@@ -13,7 +13,7 @@ public interface IHandler<in TRequest, TResponse> where TRequest : IRequest<TRes
     /// <param name="request">The request.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>The resulting <see cref="TResponse"/>.</returns>
-    public Task<TResponse> HandleAsync(TRequest request, CancellationToken cancellationToken);
+    public Task<TResponse> HandleAsync(TRequest request, CancellationToken cancellationToken = default);
 }
 
 /// <summary>
