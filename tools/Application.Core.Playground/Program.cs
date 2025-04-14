@@ -7,7 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 var serviceCollection = new ServiceCollection();
 
 serviceCollection.AddTransient<IDomainHandler<MyRequest, int>, MyHandler>()
-                 .AddTransient<IHandler<ConsoleLogRequest>, ConsoleLogRequestHandler>()
                  .AddTransient(typeof(IValidatableHandler<,>), typeof(ValidatableHandler<,>))
                  .AddTransient(typeof(IHandler<,>), typeof(Handler<,>))
                  .AddValidatorsFromAssembly(typeof(Program).Assembly)
@@ -42,37 +41,18 @@ MeasurementHolder.Instance.PrintResults();
 
 Console.ReadLine();
 
-
-
-public interface IDomainHandler<in TRequest> : IHandler<TRequest> where TRequest : IRequest
-{
-    
-}
-
 public interface IDomainHandler<in TRequest, TResponse> : IHandler<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
     
 }
 
-public class ConsoleLogRequest : IRequest
-{
-    public required string Message { get; init; }
-}
-
-public class ConsoleLogRequestHandler : IDomainHandler<ConsoleLogRequest>
-{
-    public Task HandleAsync(ConsoleLogRequest request, CancellationToken cancellationToken)
-    {
-     
-        Console.WriteLine($"{DateTimeOffset.UtcNow}: {request.Message}");
-
-        return Task.CompletedTask;
-    }
-}
-
 public class MyRequest : IRequest<int>
 {
     public required int Id { get; init; }
+}
+
+public interface IValidatableRequest : IBaseRequest{
+
 }
 public class MyHandler : IDomainHandler<MyRequest, int>
 {

@@ -24,18 +24,4 @@ internal class Mediator(IServiceProvider serviceProvider) : IMediator
         
         return (Task<TResponse>)handlerMethod.Invoke(handler, [request, cancellationToken ])!;
     }
-    
-    /// <inheritdoc />
-    public Task HandleAsync<TRequest>(TRequest request, CancellationToken cancellationToken = default) where TRequest : IRequest
-    {
-        ArgumentNullException.ThrowIfNull(request);
-
-        var handler = serviceProvider.GetService<IHandler<TRequest>>();
-        if (handler is null)
-        {
-            throw new InvalidOperationException($"Could not find handler for request of type {typeof(TRequest).Name}.");
-        }
-
-        return handler.HandleAsync(request, cancellationToken);
-    }
 }
