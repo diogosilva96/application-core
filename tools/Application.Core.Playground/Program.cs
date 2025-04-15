@@ -6,9 +6,10 @@ using Microsoft.Extensions.DependencyInjection;
 var serviceCollection = new ServiceCollection();
 
 // decorator approach
-serviceCollection.AddTransient<IHandler<MyRequest, int>, MyHandler>()
+serviceCollection//.AddTransient<IHandler<MyRequest, int>, MyHandler>()
                  .AddValidatorsFromAssembly(typeof(Program).Assembly)
-                 .AddMediator(config => config
+                 .AddMediator(builder => builder
+                                        .AddHandlersFromAssemblyContaining<Program>()
                                         .AddBehavior(typeof(ConsoleLogBehavior<,>))
                                         .AddBehavior(typeof(ValidationBehavior<,>))
                                         .AddBehavior(typeof(ModifyRequestBehavior<,>)));
@@ -16,11 +17,6 @@ serviceCollection.AddTransient<IHandler<MyRequest, int>, MyHandler>()
 var serviceProvider = serviceCollection.BuildServiceProvider();
 
 var mediator = serviceProvider.GetRequiredService<IMediator>();
-
-// await mediator.HandleAsync(new ConsoleLogRequest()
-// {
-//     Message = "Wow, this is cool!"
-// });
 
 for (var i = 0; i < 100000; i++)
 {
@@ -36,10 +32,6 @@ for (var i = 0; i < 100000; i++)
 }
 
 MeasurementHolder.Instance.PrintResults();
-
-// IHandler - entry point
-// IValidatableHandler - 2nd handler
-// IDomainHandler - 3rd handler (actual business logic)
 
 Console.ReadLine();
 
