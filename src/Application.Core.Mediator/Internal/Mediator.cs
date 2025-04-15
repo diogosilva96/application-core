@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Collections.Concurrent;
+using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application.Core.Mediator.Internal;
@@ -8,7 +9,7 @@ namespace Application.Core.Mediator.Internal;
 /// </summary>
 internal class Mediator(IServiceProvider serviceProvider) : IMediator
 {
-    private readonly Dictionary<Type, MethodInfo> _methodCache = [];
+    private readonly ConcurrentDictionary<Type, MethodInfo> _methodCache = [];
     
     /// <inheritdoc />
     public Task<TResponse> HandleAsync<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
