@@ -4,25 +4,26 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Application.Core.Mediator;
 
 /// <summary>
-/// Represents the mediator configuration.
+/// Represents the mediator configurator.
 /// </summary>
-public class MediatorBuilder
+public class MediatorConfigurator
 {
     private static readonly Type _genericHandlerBehaviorAbstractionType = typeof(IHandlerBehavior<,>);
     private static readonly Type _genericHandlerAbstractionType = typeof(IHandler<,>);
     private readonly IServiceCollection _serviceCollection;
 
-    internal MediatorBuilder(IServiceCollection serviceCollection) => _serviceCollection = serviceCollection;
+    internal MediatorConfigurator(IServiceCollection serviceCollection) => _serviceCollection = serviceCollection;
 
     /// <summary>
     /// Adds the specified <paramref name="behaviorType" />.
     /// </summary>
     /// <param name="behaviorType">The behavior type to add.</param>
-    /// <returns>The <see cref="MediatorBuilder" />.</returns>
+    /// <remarks>The order of the behaviors being registered will be the order in which they will execute.</remarks>
+    /// <returns>The <see cref="MediatorConfigurator" />.</returns>
     /// <exception cref="ArgumentException">
     /// Exception thrown when the <paramref name="behaviorType" /> is not a behavior type.
     /// </exception>
-    public MediatorBuilder AddBehavior(Type behaviorType)
+    public MediatorConfigurator AddBehavior(Type behaviorType)
     {
         ArgumentNullException.ThrowIfNull(behaviorType);
         if (!IsBehaviorType(behaviorType))
@@ -37,8 +38,8 @@ public class MediatorBuilder
     /// Registers the handlers in the specified <paramref name="assemblies" />.
     /// </summary>
     /// <param name="assemblies">The assemblies to scan.</param>
-    /// <returns>The <see cref="MediatorBuilder" /> builder with the added handlers.</returns>
-    public MediatorBuilder AddHandlersFromAssemblies(params Assembly[] assemblies)
+    /// <returns>The <see cref="MediatorConfigurator" /> builder with the added handlers.</returns>
+    public MediatorConfigurator AddHandlersFromAssemblies(params Assembly[] assemblies)
     {
         if (assemblies.Length == 0) throw new ArgumentException("At least one assembly must be specified.", nameof(assemblies));
 
@@ -54,8 +55,8 @@ public class MediatorBuilder
     /// Registers the handlers contained in the assembly of the specified type <see cref="T:T" />.
     /// </summary>
     /// <typeparam name="T">The type containing the assembly to register the handlers for.</typeparam>
-    /// <returns>The <see cref="MediatorBuilder" /> with the added handlers.</returns>
-    public MediatorBuilder AddHandlersFromAssemblyContaining<T>()
+    /// <returns>The <see cref="MediatorConfigurator" /> with the added handlers.</returns>
+    public MediatorConfigurator AddHandlersFromAssemblyContaining<T>()
     {
         var assembly = typeof(T).Assembly;
 

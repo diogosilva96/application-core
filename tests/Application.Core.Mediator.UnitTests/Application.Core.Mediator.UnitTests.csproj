@@ -28,4 +28,8 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="3.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Application.Core.Mediator\Application.Core.Mediator.csproj" />
+  </ItemGroup>
+
 </Project>
