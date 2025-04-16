@@ -15,6 +15,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{87949E44
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Core.Playground", "tools\Application.Core.Playground\Application.Core.Playground.csproj", "{0F9347E4-D26E-4989-ADC5-C3AC803196C7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{AA585280-09F1-4A1B-B032-AF6A475BEB42}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Core.Mediator.Sample", "samples\Application.Core.Mediator.Sample\Application.Core.Mediator.Sample.csproj", "{5ED89412-34BF-4B4A-B01F-EE07685B5D36}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,10 +40,15 @@ Global
 		{0F9347E4-D26E-4989-ADC5-C3AC803196C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F9347E4-D26E-4989-ADC5-C3AC803196C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F9347E4-D26E-4989-ADC5-C3AC803196C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5ED89412-34BF-4B4A-B01F-EE07685B5D36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5ED89412-34BF-4B4A-B01F-EE07685B5D36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5ED89412-34BF-4B4A-B01F-EE07685B5D36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5ED89412-34BF-4B4A-B01F-EE07685B5D36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7D9B38B4-9596-471B-B11E-084E3C214DF2} = {5C4F8093-A296-4F76-9C64-4BEADB63000F}
 		{2340255F-3AAD-4C89-9EE2-9E665F81B7DD} = {527C0946-37AF-4E04-9FED-774773491B4E}
 		{0F9347E4-D26E-4989-ADC5-C3AC803196C7} = {87949E44-BC5B-4E28-B66A-C624CCFB56AD}
+		{5ED89412-34BF-4B4A-B01F-EE07685B5D36} = {AA585280-09F1-4A1B-B032-AF6A475BEB42}
 	EndGlobalSection
 EndGlobal
