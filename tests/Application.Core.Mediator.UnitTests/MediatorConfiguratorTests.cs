@@ -17,7 +17,17 @@ public class MediatorConfiguratorTests
     public MediatorConfiguratorTests()
     {
         _serviceCollection = [];
-        _mediatorConfigurator = new(_serviceCollection);
+        _mediatorConfigurator = new();
+    }
+
+    [Fact]
+    public void ConfigureServices_RegistersSender()
+    {
+        // Act
+        var serviceProvider = _mediatorConfigurator.ConfigureServices(_serviceCollection).BuildServiceProvider();
+
+        // Assert
+        Assert.NotNull(serviceProvider.GetService<ISender>());
     }
 
     [Fact]
@@ -25,7 +35,7 @@ public class MediatorConfiguratorTests
     {
         // Act
         _mediatorConfigurator.AddBehavior(typeof(TestBehavior<,>));
-        var serviceProvider = _serviceCollection.BuildServiceProvider();
+        var serviceProvider = _mediatorConfigurator.ConfigureServices(_serviceCollection).BuildServiceProvider();
 
         // Assert
         Assert.NotNull(serviceProvider.GetService<IHandlerBehavior<TestLogRequest, string>>());
@@ -47,7 +57,8 @@ public class MediatorConfiguratorTests
     {
         // Act
         _mediatorConfigurator.AddHandlersFromAssemblyContaining<TestLogRequest>();
-        var serviceProvider = _serviceCollection.BuildServiceProvider();
+        var serviceProvider = _mediatorConfigurator.ConfigureServices(_serviceCollection).BuildServiceProvider();
+        ;
 
         // Assert
         Assert.All(_expectedHandlerTypesToRegister, expectedType => Assert.NotNull(serviceProvider.GetService(expectedType)));
@@ -58,7 +69,8 @@ public class MediatorConfiguratorTests
     {
         // Act
         _mediatorConfigurator.AddHandlersFromAssemblies(typeof(TestLogRequest).Assembly);
-        var serviceProvider = _serviceCollection.BuildServiceProvider();
+        var serviceProvider = _mediatorConfigurator.ConfigureServices(_serviceCollection).BuildServiceProvider();
+        ;
 
         // Assert
         Assert.All(_expectedHandlerTypesToRegister, expectedType => Assert.NotNull(serviceProvider.GetService(expectedType)));

@@ -17,9 +17,9 @@ public static class ServiceCollectionExtensions
     {
         ArgumentNullException.ThrowIfNull(serviceCollection);
 
-        var configurator = new MediatorConfigurator(serviceCollection);
+        var configurator = new MediatorConfigurator();
         configureMediator?.Invoke(configurator);
-        
-        return serviceCollection.AddTransient<IMediator, Internal.Mediator>();
+
+        return configurator.ConfigureServices(serviceCollection);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Application.Core.Mediator.UnitTests.Utils;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Application.Core.Mediator.UnitTests;
 
@@ -7,13 +8,34 @@ public class ServiceCollectionExtensionsTests
     private readonly ServiceCollection _serviceCollection = [];
 
     [Fact]
-    public void AddMediator_RegistersMediator()
+    public void AddMediator_RegistersSender()
     {
         // Act
-        _serviceCollection.AddMediator();
-        using var serviceProvider = _serviceCollection.BuildServiceProvider();
+        using var serviceProvider = _serviceCollection.AddMediator()
+                                                      .BuildServiceProvider();
 
         // Assert
-        Assert.NotNull(serviceProvider.GetService<IMediator>());
+        Assert.NotNull(serviceProvider.GetService<ISender>());
+    }
+    
+    [Fact]
+    public void AddMediator_RegistersExpectedTypes_WhenUsingMediatorConfiguratorAction()
+    {
+        // Arrange
+        Type[] expectedTypesToRegister = 
+        [
+            typeof(ISender),
+            typeof(IHandlerBehavior<TestLogRequest, string>),
+            typeof(IHandler<TestLogRequest, string>),
+            typeof(IHandler<TestRequest, int>)
+        ];
+        
+        // Act
+        var serviceProvider = _serviceCollection.AddMediator(configurator => configurator.AddBehavior(typeof(TestBehavior<,>))
+                                                                                         .AddHandlersFromAssemblyContaining<TestLogRequest>())
+                                                      .BuildServiceProvider();
+
+        // Assert
+        Assert.All(expectedTypesToRegister, expectedType => Assert.NotNull(serviceProvider.GetService(expectedType)));
     }
 }

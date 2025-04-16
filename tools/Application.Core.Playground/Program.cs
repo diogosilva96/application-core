@@ -16,7 +16,7 @@ serviceCollection//.AddTransient<IHandler<MyRequest, int>, MyHandler>()
 
 var serviceProvider = serviceCollection.BuildServiceProvider();
 
-var mediator = serviceProvider.GetRequiredService<IMediator>();
+var mediator = serviceProvider.GetRequiredService<ISender>();
 
 for (var i = 0; i < 100000; i++)
 {
@@ -25,9 +25,9 @@ for (var i = 0; i < 100000; i++)
         Id = i,
         Message = "Hello"
     };
-    using (new Measurer($"{nameof(IMediator)}.{nameof(IMediator.HandleAsync)}"))
+    using (new Measurer($"{nameof(ISender)}.{nameof(ISender.SendAsync)}"))
     {
-        var result = await mediator.HandleAsync(request, CancellationToken.None);
+        var result = await mediator.SendAsync(request, CancellationToken.None);
     }
 }
 

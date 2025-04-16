@@ -5,14 +5,14 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Application.Core.Mediator.Internal;
 
 /// <summary>
-/// Represents the mediator component.
+/// Represents the sender component.
 /// </summary>
-internal class Mediator(IServiceProvider serviceProvider) : IMediator
+internal class Sender(IServiceProvider serviceProvider) : ISender
 {
     private readonly ConcurrentDictionary<Type, MethodInfo> _methodCache = [];
     
     /// <inheritdoc />
-    public Task<TResponse> HandleAsync<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
+    public Task<TResponse> SendAsync<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(request);
 
