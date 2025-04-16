@@ -33,7 +33,7 @@ public class ServiceCollectionExtensionsTests
         // Act
         var serviceProvider = _serviceCollection.AddMediator(configurator => configurator.AddBehavior(typeof(TestBehavior<,>))
                                                                                          .AddHandlersFromAssemblyContaining<TestLogRequest>())
-                                                      .BuildServiceProvider();
+                                                .BuildServiceProvider();
 
         // Assert
         Assert.All(expectedTypesToRegister, expectedType => Assert.NotNull(serviceProvider.GetService(expectedType)));
