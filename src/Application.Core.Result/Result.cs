@@ -121,7 +121,7 @@ public record Result<T, TError>
     /// </summary>
     /// <param name="onSuccess">The delegate to execute when the result is successful.</param>
     /// <param name="onError">The delegate to execute when the result is an error.</param>
-    public Task Switch<TResult>(
+    public Task SwitchAsync(
         Func<T, Task> onSuccess,
         Func<TError, Task> onError)
     {
