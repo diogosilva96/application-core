@@ -11,6 +11,9 @@ public record Result<T, TError> where TError : Error
     /// Creates a successful <see cref="Result{T, TError}" /> with the given <paramref name="value" />.
     /// </summary>
     /// <param name="value">The value of the result.</param>
+    /// <exception cref="ArgumentNullException">
+    /// Exception thrown when the <paramref name="value"/> is not specified.
+    /// </exception>
     protected Result(T value)
     {
         ArgumentNullException.ThrowIfNull(value);
@@ -23,6 +26,9 @@ public record Result<T, TError> where TError : Error
     /// Creates an error <see cref="Result{T, TError}" /> with the given <paramref name="error" />.
     /// </summary>
     /// <param name="error">The error of the result.</param>
+    /// <exception cref="ArgumentNullException">
+    /// Exception thrown when the <paramref name="error"/> is not specified.
+    /// </exception>
     protected Result(TError error)
     {
         ArgumentNullException.ThrowIfNull(error);
