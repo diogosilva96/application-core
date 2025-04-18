@@ -5,7 +5,7 @@
 /// </summary>
 /// <typeparam name="T">The type for the value of the result.</typeparam>
 /// <typeparam name="TError">The error type of the result.</typeparam>
-public record Result<T, TError>
+public record Result<T, TError> where TError : Error
 {
     /// <summary>
     /// Creates a successful <see cref="Result{T, TError}" /> with the given <paramref name="value" />.
