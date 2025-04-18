@@ -1,7 +1,7 @@
 ﻿namespace Application.Core.Result;
 
 /// <summary>
-/// Represents a result.
+/// Represents a result with a value of type <see cref="T:T"/> and an error of type <see cref="T:TError"/>.
 /// </summary>
 /// <typeparam name="T">The type for the value of the result.</typeparam>
 /// <typeparam name="TError">The error type of the result.</typeparam>
@@ -133,4 +133,30 @@ public record Result<T, TError> where TError : Error
     
     public static implicit operator Result<T, TError>(T value) => new(value);
     public static implicit operator Result<T, TError>(TError error) => new(error);
+}
+
+/// <summary>
+/// Represents a result with a value of type <see cref="T:T"/> and an error of type <see cref="Error"/>.
+/// </summary>
+/// <typeparam name="T">The type for the value of the result.</typeparam>
+public record Result<T> : Result<T, Error>
+{
+    /// <summary>
+    /// Creates a successful <see cref="Result{T}" /> with the given <paramref name="value" />.
+    /// </summary>
+    /// <param name="value">The value of the result.</param>
+    public Result(T value) : base(value)
+    {
+    }
+
+    /// <summary>
+    /// Creates an error <see cref="Result{T}" /> with the given <paramref name="error" />.
+    /// </summary>
+    /// <param name="error">The error of the result.</param>
+    public Result(Error error) : base(error)
+    {
+    }
+    
+    public static implicit operator Result<T>(T value) => new(value);
+    public static implicit operator Result<T>(Error error) => new(error);
 }
