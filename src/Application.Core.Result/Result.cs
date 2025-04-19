@@ -14,7 +14,7 @@ public record Result<T, TError> where TError : Error
     /// <exception cref="ArgumentNullException">
     /// Exception thrown when the <paramref name="value"/> is not specified.
     /// </exception>
-    protected Result(T value)
+    public Result(T value)
     {
         ArgumentNullException.ThrowIfNull(value);
 
@@ -29,7 +29,7 @@ public record Result<T, TError> where TError : Error
     /// <exception cref="ArgumentNullException">
     /// Exception thrown when the <paramref name="error"/> is not specified.
     /// </exception>
-    protected Result(TError error)
+    public Result(TError error)
     {
         ArgumentNullException.ThrowIfNull(error);
 
