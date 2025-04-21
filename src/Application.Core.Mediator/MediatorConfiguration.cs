@@ -4,30 +4,18 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Application.Core.Mediator;
 
 /// <summary>
-/// Represents the mediator configurator.
+/// Represents the mediator configuration.
 /// </summary>
-public class MediatorConfigurator
+public class MediatorConfiguration
 {
     private static readonly Type _genericHandlerBehaviorAbstractionType = typeof(IHandlerBehavior<,>);
     private static readonly Type _genericHandlerAbstractionType = typeof(IHandler<,>);
     private readonly List<ServiceDescriptor> _servicesToRegister = [];
-
+    
     /// <summary>
-    /// Configures the services on the given <paramref name="serviceCollection"/>.
+    /// Gets the configured services to register.
     /// </summary>
-    /// <param name="serviceCollection">The service collection to configure the services for.</param>
-    /// <returns>The configured service collection.</returns>
-    internal IServiceCollection ConfigureServices(IServiceCollection serviceCollection)
-    {
-        foreach (var serviceDescriptor in _servicesToRegister)
-        {
-            serviceCollection.Add(serviceDescriptor);
-        }
-        
-        serviceCollection.Add(new(typeof(ISender), typeof(Internal.Sender), SenderLifetime));
-
-        return serviceCollection;
-    }
+    public IReadOnlyList<ServiceDescriptor> ServicesToRegister => _servicesToRegister;
 
     /// <summary>
     /// Gets or sets the lifetime of <see cref="ISender"/>. Defaults to <see cref="ServiceLifetime.Transient"/>.
@@ -41,11 +29,11 @@ public class MediatorConfigurator
     /// <param name="behaviorType">The behavior type to add.</param>
     /// <param name="serviceLifetime">The service life time for the behavior being registered.</param>
     /// <remarks>The order of the behaviors being registered will be the order in which they will execute.</remarks>
-    /// <returns>The <see cref="MediatorConfigurator" />.</returns>
+    /// <returns>The <see cref="MediatorConfiguration" />.</returns>
     /// <exception cref="ArgumentException">
     /// Exception thrown when the <paramref name="behaviorType" /> is not a behavior type.
     /// </exception>
-    public MediatorConfigurator AddBehavior(Type behaviorType, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
+    public MediatorConfiguration AddBehavior(Type behaviorType, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
     {
         ArgumentNullException.ThrowIfNull(behaviorType);
         if (!IsBehaviorType(behaviorType))
@@ -60,8 +48,8 @@ public class MediatorConfigurator
     /// Registers the handlers in the specified <paramref name="assemblies" />.
     /// </summary>
     /// <param name="assemblies">The assemblies to scan.</param>
-    /// <returns>The <see cref="MediatorConfigurator" /> builder with the added handlers.</returns>
-    public MediatorConfigurator AddHandlersFromAssemblies(params Assembly[] assemblies)
+    /// <returns>The <see cref="MediatorConfiguration" /> builder with the added handlers.</returns>
+    public MediatorConfiguration AddHandlersFromAssemblies(params Assembly[] assemblies)
     {
         if (assemblies.Length == 0) throw new ArgumentException("At least one assembly must be specified.", nameof(assemblies));
 
@@ -77,8 +65,8 @@ public class MediatorConfigurator
     /// Registers the handlers contained in the assembly of the specified type <see cref="T:T" />.
     /// </summary>
     /// <typeparam name="T">The type containing the assembly to register the handlers for.</typeparam>
-    /// <returns>The <see cref="MediatorConfigurator" /> with the added handlers.</returns>
-    public MediatorConfigurator AddHandlersFromAssemblyContaining<T>()
+    /// <returns>The <see cref="MediatorConfiguration" /> with the added handlers.</returns>
+    public MediatorConfiguration AddHandlersFromAssemblyContaining<T>()
     {
         var assembly = typeof(T).Assembly;
 

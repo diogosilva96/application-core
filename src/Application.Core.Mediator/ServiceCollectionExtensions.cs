@@ -13,13 +13,20 @@ public static class ServiceCollectionExtensions
     /// <param name="serviceCollection">The service collection.</param>
     /// <param name="configureMediator">The action for configuring the mediator.</param>
     /// <returns>The <see cref="IServiceCollection" /> with the added service(s).</returns>
-    public static IServiceCollection AddMediator(this IServiceCollection serviceCollection, Action<MediatorConfigurator>? configureMediator = null)
+    public static IServiceCollection AddMediator(this IServiceCollection serviceCollection, Action<MediatorConfiguration>? configureMediator = null)
     {
         ArgumentNullException.ThrowIfNull(serviceCollection);
 
-        var configurator = new MediatorConfigurator();
-        configureMediator?.Invoke(configurator);
+        var configuration = new MediatorConfiguration();
+        configureMediator?.Invoke(configuration);
 
-        return configurator.ConfigureServices(serviceCollection);
+        foreach (var service in configuration.ServicesToRegister)
+        {
+            serviceCollection.Add(service);
+        }
+        
+        serviceCollection.Add(new(typeof(ISender), typeof(Internal.Sender), configuration.SenderLifetime));
+        
+        return serviceCollection;
     }
 }
