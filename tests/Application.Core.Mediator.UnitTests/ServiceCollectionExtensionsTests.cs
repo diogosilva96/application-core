@@ -1,4 +1,7 @@
-﻿using Application.Core.Mediator.UnitTests.Utils;
+﻿using System.Collections.Concurrent;
+using System.Reflection;
+using Application.Core.Mediator.Internal;
+using Application.Core.Mediator.UnitTests.Utils;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application.Core.Mediator.UnitTests;
@@ -16,6 +19,17 @@ public class ServiceCollectionExtensionsTests
 
         // Assert
         Assert.NotNull(serviceProvider.GetService<ISender>());
+    }
+    
+    [Fact]
+    public void AddMediator_RegistersSenderMethodCache()
+    {
+        // Act
+        using var serviceProvider = _serviceCollection.AddMediator()
+                                                      .BuildServiceProvider();
+
+        // Assert
+        Assert.NotNull(serviceProvider.GetKeyedService<ConcurrentDictionary<Type, MethodInfo>>(ServiceKeys.SenderMethodCache));
     }
     
     [Fact]

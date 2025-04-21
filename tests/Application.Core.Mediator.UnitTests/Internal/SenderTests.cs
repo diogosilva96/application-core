@@ -1,4 +1,5 @@
 ﻿using Application.Core.Mediator.Internal;
+using Application.Core.Mediator.UnitTests.Internal.Builder;
 using Application.Core.Mediator.UnitTests.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
@@ -17,11 +18,12 @@ public class SenderTests
         handler.HandleAsync(Arg.Any<TestLogRequest>(), Arg.Any<CancellationToken>()).Returns(expectedResult);
        
         var serviceCollection = new ServiceCollection();
-        serviceCollection.AddTransient<IHandler<TestLogRequest, string>>(_ => handler);
+        serviceCollection.AddTransient(_ => handler);
         var serviceProvider = serviceCollection.BuildServiceProvider();
         
         var request = new TestLogRequest { Id = Guid.NewGuid(), Message = "Hello this is a message." };
-        var sender = new Sender(serviceProvider);
+        var sender = new SenderBuilder().With(serviceProvider)
+                                        .Build();
         
         // Act
         var result = await sender.SendAsync(request, TestContext.Current.CancellationToken);
@@ -51,7 +53,8 @@ public class SenderTests
         var anotherTestBehavior = behaviors.OfType<AnotherTestBehavior<TestLogRequest, string>>().Single();
         
         var request = new TestLogRequest { Id = Guid.NewGuid(), Message = "Hello this is a message." };
-        var sender = new Sender(serviceProvider);
+        var sender = new SenderBuilder().With(serviceProvider)
+                                        .Build();
         
         // Act
         var result = await sender.SendAsync(request, TestContext.Current.CancellationToken);
@@ -71,7 +74,8 @@ public class SenderTests
         var serviceProvider = new ServiceCollection().BuildServiceProvider();
         
         var request = new TestLogRequest { Id = Guid.NewGuid(), Message = "Hello this is a message." };
-        var sender = new Sender(serviceProvider);
+        var sender = new SenderBuilder().With(serviceProvider)
+                                        .Build();
         
         // Act
         // ReSharper disable once ConvertToLocalFunction

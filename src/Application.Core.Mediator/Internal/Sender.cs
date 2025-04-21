@@ -7,10 +7,8 @@ namespace Application.Core.Mediator.Internal;
 /// <summary>
 /// Represents the sender component.
 /// </summary>
-internal class Sender(IServiceProvider serviceProvider) : ISender
+internal class Sender(IServiceProvider serviceProvider, [FromKeyedServices(ServiceKeys.SenderMethodCache)]ConcurrentDictionary<Type, MethodInfo> methodCache) : ISender
 {
-    private readonly ConcurrentDictionary<Type, MethodInfo> _methodCache = [];
-    
     /// <inheritdoc />
     public Task<TResponse> SendAsync<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
     {
@@ -26,10 +24,10 @@ internal class Sender(IServiceProvider serviceProvider) : ISender
             var behaviorsSlice = behaviors.AsSpan()[index..];
             if (behaviorsSlice.Length == 0) return HandleUsingHandlerAsync(request, cancellationToken);
 
-            if (!_methodCache.TryGetValue(handlerBehaviorType, out var behaviorMethod))
+            if (!methodCache.TryGetValue(handlerBehaviorType, out var behaviorMethod))
             {
                 behaviorMethod = handlerBehaviorType.GetMethod(nameof(IHandlerBehavior<IRequest<TResponse>, TResponse>.HandleAsync))!;
-                _methodCache.TryAdd(handlerBehaviorType, behaviorMethod);
+                methodCache.TryAdd(handlerBehaviorType, behaviorMethod);
             }
             
             var currentBehavior = behaviorsSlice[0];
@@ -47,10 +45,10 @@ internal class Sender(IServiceProvider serviceProvider) : ISender
         }
         
         // ReSharper disable once InvertIf
-        if (!_methodCache.TryGetValue(handlerType, out var handlerMethod))
+        if (!methodCache.TryGetValue(handlerType, out var handlerMethod))
         {
             handlerMethod = handlerType.GetMethod(nameof(IHandler<IRequest<TResponse>, TResponse>.HandleAsync))!;
-            _methodCache.TryAdd(handlerType, handlerMethod);
+            methodCache.TryAdd(handlerType, handlerMethod);
         }
         
         return (Task<TResponse>)handlerMethod.Invoke(handler, [request, cancellationToken ])!;

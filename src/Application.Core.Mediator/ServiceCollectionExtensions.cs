@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Collections.Concurrent;
+using System.Reflection;
+using Application.Core.Mediator.Internal;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Application.Core.Mediator;
 
@@ -24,8 +27,9 @@ public static class ServiceCollectionExtensions
         {
             serviceCollection.Add(service);
         }
-        
-        serviceCollection.Add(new(typeof(ISender), typeof(Internal.Sender), configuration.SenderLifetime));
+
+        serviceCollection.AddKeyedSingleton<ConcurrentDictionary<Type, MethodInfo>>(ServiceKeys.SenderMethodCache);
+        serviceCollection.Add(new(typeof(ISender), typeof(Sender), configuration.SenderLifetime));
         
         return serviceCollection;
     }
