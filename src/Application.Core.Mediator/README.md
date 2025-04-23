@@ -21,8 +21,7 @@ For sample usage and implementation examples, check out the sample project:
 After learning that the MediatR library would be moving to a paid model, I decided to build a lightweight version of it just for fun and giggles. 
 I only needed a subset of MediatR's functionality in my own projects, so this was a great opportunity to:
 
-- Implement only the features I use (no bloat).
-- Learn and explore mediator design patterns more deeply.
-- Have full control over how requests and behaviors are managed.
+- Implement just the features I actually use — keeping things simple and free of unnecessary complexity.
+- Exercise my problem-solving skills by thinking through the core challenges and designing a clean and focused mediator style solution.
 
 This project is not meant as a full replacement for MediatR, but as a fun and functional alternative for those who need something simpler.
