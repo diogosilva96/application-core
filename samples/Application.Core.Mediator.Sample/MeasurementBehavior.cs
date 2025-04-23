@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Core.Mediator.Sample;
 
-public class MeasurementBehavior<TRequest, TResponse>(ILogger<MeasurementBehavior<TRequest, TResponse>> logger) : IHandlerBehavior<TRequest, TResponse>
+public class MeasurementBehavior<TRequest, TResponse>(ILogger<MeasurementBehavior<TRequest, TResponse>> logger) : IBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {
     public async Task<TResponse> HandleAsync(TRequest request, Func<Task<TResponse>> next, CancellationToken cancellationToken = default)

@@ -39,7 +39,7 @@ public class ServiceCollectionExtensionsTests
         Type[] expectedTypesToRegister = 
         [
             typeof(ISender),
-            typeof(IHandlerBehavior<TestLogRequest, string>),
+            typeof(IBehavior<TestLogRequest, string>),
             typeof(IHandler<TestLogRequest, string>),
             typeof(IHandler<TestRequest, int>)
         ];

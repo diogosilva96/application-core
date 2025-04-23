@@ -5,7 +5,7 @@
 ## Features
 
 - `IHandler<TRequest, TResponse>` – Defines a handler for a given request and response type.
-- `IHandlerBehavior<TRequest, TResponse>` – Enables decorator-style behavior wrapping around handlers (e.g., logging, validation, etc.).
+- `IBehavior<TRequest, TResponse>` – Enables decorator-style behavior wrapping around handlers that can be used for tracing, metrics, logging, validation, etc.
 - `ISender` – The entry point for sending requests and triggering the appropriate handler(s).
 - Automatic handler registration via assembly scanning (using reflection).
 

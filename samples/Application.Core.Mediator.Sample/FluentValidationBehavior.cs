@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Core.Mediator.Sample;
 
-public class FluentValidationBehavior<TRequest, TResponse>(ILogger<FluentValidationBehavior<TRequest, TResponse>> logger, IEnumerable<IValidator<TRequest>> validators) : IHandlerBehavior<TRequest, TResponse>
+public class FluentValidationBehavior<TRequest, TResponse>(ILogger<FluentValidationBehavior<TRequest, TResponse>> logger, IEnumerable<IValidator<TRequest>> validators) : IBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {
     

@@ -14,24 +14,24 @@ internal class Sender(IServiceProvider serviceProvider, [FromKeyedServices(Servi
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        var handlerBehaviorType = typeof(IHandlerBehavior<,>).MakeGenericType(request.GetType(), typeof(TResponse));
-        var handlerBehaviors = serviceProvider.GetServices(handlerBehaviorType).OfType<object>().ToArray();
+        var behaviorType = typeof(IBehavior<,>).MakeGenericType(request.GetType(), typeof(TResponse));
+        var behaviors = serviceProvider.GetServices(behaviorType).OfType<object>().ToArray();
         
-        return HandleInternalAsync(handlerBehaviors, 0);
+        return HandleInternalAsync(0);
         
-        Task<TResponse> HandleInternalAsync(object[] behaviors, int index)
+        Task<TResponse> HandleInternalAsync(int index)
         {
             var behaviorsSlice = behaviors.AsSpan()[index..];
             if (behaviorsSlice.Length == 0) return HandleUsingHandlerAsync(request, cancellationToken);
 
-            if (!methodCache.TryGetValue(handlerBehaviorType, out var behaviorMethod))
+            if (!methodCache.TryGetValue(behaviorType, out var behaviorMethod))
             {
-                behaviorMethod = handlerBehaviorType.GetMethod(nameof(IHandlerBehavior<IRequest<TResponse>, TResponse>.HandleAsync))!;
-                methodCache.TryAdd(handlerBehaviorType, behaviorMethod);
+                behaviorMethod = behaviorType.GetMethod(nameof(IBehavior<IRequest<TResponse>, TResponse>.HandleAsync))!;
+                methodCache.TryAdd(behaviorType, behaviorMethod);
             }
             
             var currentBehavior = behaviorsSlice[0];
-            return (Task<TResponse>)behaviorMethod.Invoke(currentBehavior, [request, () => HandleInternalAsync(behaviors, index + 1), cancellationToken])!;
+            return (Task<TResponse>)behaviorMethod.Invoke(currentBehavior, [request, () => HandleInternalAsync(index + 1), cancellationToken])!;
         }
     }
 

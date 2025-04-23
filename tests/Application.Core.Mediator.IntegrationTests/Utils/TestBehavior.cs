@@ -1,6 +1,6 @@
 ﻿namespace Application.Core.Mediator.IntegrationTests.Utils;
 
-internal class TestBehavior<TRequest, TResponse> : IHandlerBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
+internal class TestBehavior<TRequest, TResponse> : IBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
     public long HandledAtTicks { get; set; }
 

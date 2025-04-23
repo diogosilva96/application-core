@@ -44,10 +44,10 @@ public class SenderTests
         var serviceCollection = new ServiceCollection();
         serviceCollection.AddTransient<IHandler<TestLogRequest, string>>(_ => handler)
                          // the behaviors are setup as a singleton so that we can check that they have been handled
-                         .AddSingleton(typeof(IHandlerBehavior<,>), typeof(TestBehavior<,>))
-                         .AddSingleton(typeof(IHandlerBehavior<,>), typeof(AnotherTestBehavior<,>));
+                         .AddSingleton(typeof(IBehavior<,>), typeof(TestBehavior<,>))
+                         .AddSingleton(typeof(IBehavior<,>), typeof(AnotherTestBehavior<,>));
         var serviceProvider = serviceCollection.BuildServiceProvider();
-        var behaviors = serviceProvider.GetServices<IHandlerBehavior<TestLogRequest, string>>().ToArray();
+        var behaviors = serviceProvider.GetServices<IBehavior<TestLogRequest, string>>().ToArray();
         // ReSharper disable twice SuspiciousTypeConversion.Global
         var testBehavior = behaviors.OfType<TestBehavior<TestLogRequest, string>>().Single();
         var anotherTestBehavior = behaviors.OfType<AnotherTestBehavior<TestLogRequest, string>>().Single();

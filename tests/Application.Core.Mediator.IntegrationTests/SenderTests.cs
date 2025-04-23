@@ -39,8 +39,8 @@ public class SenderTests
             });
         factory.Build();
         var sender = factory.CreateSender();
-        var testBehavior = factory.ServiceProvider.GetServices<IHandlerBehavior<TestRequest, int>>().OfType<TestBehavior<TestRequest, int>>().Single();
-        var anotherTestBehavior = factory.ServiceProvider.GetServices<IHandlerBehavior<TestRequest, int>>().OfType<AnotherTestBehavior<TestRequest, int>>().Single();
+        var testBehavior = factory.ServiceProvider.GetServices<IBehavior<TestRequest, int>>().OfType<TestBehavior<TestRequest, int>>().Single();
+        var anotherTestBehavior = factory.ServiceProvider.GetServices<IBehavior<TestRequest, int>>().OfType<AnotherTestBehavior<TestRequest, int>>().Single();
         var request = new TestRequest
         {
             Value = 10

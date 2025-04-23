@@ -19,7 +19,7 @@ public class MediatorConfigurationTests
         _mediatorConfiguration.AddBehavior(typeof(TestBehavior<,>));
 
         // Assert
-        Assert.Contains(_mediatorConfiguration.ServicesToRegister, service => service.ServiceType == typeof(IHandlerBehavior<,>) &&
+        Assert.Contains(_mediatorConfiguration.ServicesToRegister, service => service.ServiceType == typeof(IBehavior<,>) &&
                                                                               service.ImplementationType == typeof(TestBehavior<,>));
     }
 
@@ -37,12 +37,12 @@ public class MediatorConfigurationTests
 
         // Assert
         Assert.All(expectedBehaviorTypes, expectedBehaviorType =>
-            Assert.Single(_mediatorConfiguration.ServicesToRegister, service => service.ServiceType == typeof(IHandlerBehavior<,>) &&
+            Assert.Single(_mediatorConfiguration.ServicesToRegister, service => service.ServiceType == typeof(IBehavior<,>) &&
                                                                                 service.ImplementationType == expectedBehaviorType));
     }
 
     [Fact]
-    public void AddBehavior_ThrowsArgumentException_WhenSpecifiedTypeIsNotAHandlerBehavior()
+    public void AddBehavior_ThrowsArgumentException_WhenSpecifiedTypeIsNotABehavior()
     {
         // Act
         // ReSharper disable once ConvertToLocalFunction

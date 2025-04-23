@@ -8,7 +8,7 @@ namespace Application.Core.Mediator;
 /// </summary>
 public class MediatorConfiguration
 {
-    private static readonly Type _genericHandlerBehaviorAbstractionType = typeof(IHandlerBehavior<,>);
+    private static readonly Type _genericBehaviorAbstractionType = typeof(IBehavior<,>);
     private static readonly Type _genericHandlerAbstractionType = typeof(IHandler<,>);
     private readonly List<ServiceDescriptor> _servicesToRegister = [];
     
@@ -39,7 +39,7 @@ public class MediatorConfiguration
         if (!IsBehaviorType(behaviorType))
             throw new ArgumentException($"The specified type '{behaviorType.Name}' is not a handler behavior type.", nameof(behaviorType));
         
-        _servicesToRegister.Add(new(_genericHandlerBehaviorAbstractionType, behaviorType, serviceLifetime));
+        _servicesToRegister.Add(new(_genericBehaviorAbstractionType, behaviorType, serviceLifetime));
 
         return this;
     }
@@ -84,5 +84,5 @@ public class MediatorConfiguration
     private static bool IsBehaviorType(Type behaviorType) =>
         behaviorType.GetInterfaces()
                     .Where(t => t.IsGenericType)
-                    .Any(t => t.GetGenericTypeDefinition() == _genericHandlerBehaviorAbstractionType);
+                    .Any(t => t.GetGenericTypeDefinition() == _genericBehaviorAbstractionType);
 }

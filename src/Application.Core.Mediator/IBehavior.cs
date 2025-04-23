@@ -5,7 +5,7 @@
 /// </summary>
 /// <typeparam name="TRequest">The request type.</typeparam>
 /// <typeparam name="TResponse">The response type.</typeparam>
-public interface IHandlerBehavior<in TRequest, TResponse> where TRequest : IRequest<TResponse>
+public interface IBehavior<in TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
     /// <summary>
     /// Handles the given <paramref name="request"/>.
