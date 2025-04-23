@@ -4,4 +4,8 @@
     <ProjectReference Include="..\Application.Core.Result\Application.Core.Result.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="[11.11.0, 12.0.0)" />
+  </ItemGroup>
+
 </Project>
