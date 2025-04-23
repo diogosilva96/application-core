@@ -17,8 +17,8 @@ public record ProblemDetails : Error
     /// </exception>
     public ProblemDetails(string message, int status = 500) : base(message)
     {
-        ArgumentOutOfRangeException.ThrowIfLessThan(Status, 400);
-        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(Status, 600);
+        ArgumentOutOfRangeException.ThrowIfLessThan(status, 400);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(status, 600);
         Status = status;
     }
     /// <summary>
@@ -45,4 +45,9 @@ public record ProblemDetails : Error
     /// The status code.
     /// </summary>
     public int Status { get; }
+
+    /// <summary>
+    /// The extensions.
+    /// </summary>
+    public IReadOnlyDictionary<string, object?> Extensions { get; init; } = new Dictionary<string, object?>();
 }
