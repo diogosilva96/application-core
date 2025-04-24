@@ -1,6 +1,6 @@
 ﻿using Application.Core.Result;
 
-namespace Application.Core.Api;
+namespace Application.Core.Api.Result;
 
 /// <summary>
 /// Represents a problem details result.
