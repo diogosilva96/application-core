@@ -1,6 +1,6 @@
 ﻿using FluentValidation.Results;
 
-namespace Application.Core.Api.Result;
+namespace Application.Core.Api;
 
 /// <summary>
 /// Represents a bad request result.

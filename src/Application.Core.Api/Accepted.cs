@@ -1,4 +1,4 @@
-﻿namespace Application.Core.Api.Result;
+﻿namespace Application.Core.Api;
 
 /// <summary>
 /// Represents a accepted result.

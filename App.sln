@@ -25,7 +25,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Core.Result.Uni
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Core.Mediator.IntegrationTests", "tests\Application.Core.Mediator.IntegrationTests\Application.Core.Mediator.IntegrationTests.csproj", "{73F78B61-01B1-48DE-8412-6FD31426ED36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Core.Api.Result", "src\Application.Core.Api.Result\Application.Core.Api.Result.csproj", "{7A6A2FF8-AF04-4F37-977A-55CD475DA22E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Core.Api", "src\Application.Core.Api\Application.Core.Api.csproj", "{7A6A2FF8-AF04-4F37-977A-55CD475DA22E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
