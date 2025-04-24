@@ -5,4 +5,4 @@
 /// </summary>
 /// <param name="Value">The optional value</param>
 /// <param name="Uri">The optional uri.</param>
-public record Created(object? Value = null, Uri? Uri = null) : Successful(Value);
+public record Created(object? Value = null, Uri? Uri = null) : Success(Value);

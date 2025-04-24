@@ -3,4 +3,4 @@
 /// <summary>
 /// Represents a no content result.
 /// </summary>
-public record NoContent : Successful;
+public record NoContent : Success;

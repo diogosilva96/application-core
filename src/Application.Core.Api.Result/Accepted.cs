@@ -4,4 +4,4 @@
 /// Represents a accepted result.
 /// </summary>
 /// <param name="Value">The optional value</param>
-public record Accepted(object? Value = null) : Successful(Value);
+public record Accepted(object? Value = null) : Success(Value);
