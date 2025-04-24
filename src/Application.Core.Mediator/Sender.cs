@@ -2,7 +2,7 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Application.Core.Mediator.Internal;
+namespace Application.Core.Mediator;
 
 /// <summary>
 /// Represents the sender component.

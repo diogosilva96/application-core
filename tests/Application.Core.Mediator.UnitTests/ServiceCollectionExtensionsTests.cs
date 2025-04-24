@@ -1,6 +1,5 @@
 ﻿using System.Collections.Concurrent;
 using System.Reflection;
-using Application.Core.Mediator.Internal;
 using Application.Core.Mediator.UnitTests.Utils;
 using Microsoft.Extensions.DependencyInjection;
 

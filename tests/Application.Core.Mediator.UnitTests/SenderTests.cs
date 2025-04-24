@@ -1,10 +1,9 @@
-﻿using Application.Core.Mediator.Internal;
-using Application.Core.Mediator.UnitTests.Internal.Builder;
+﻿using Application.Core.Mediator.UnitTests.Builder;
 using Application.Core.Mediator.UnitTests.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 
-namespace Application.Core.Mediator.UnitTests.Internal;
+namespace Application.Core.Mediator.UnitTests;
 
 public class SenderTests
 {

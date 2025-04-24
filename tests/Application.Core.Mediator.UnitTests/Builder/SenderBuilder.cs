@@ -1,9 +1,8 @@
 ﻿using System.Collections.Concurrent;
 using System.Reflection;
-using Application.Core.Mediator.Internal;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Application.Core.Mediator.UnitTests.Internal.Builder;
+namespace Application.Core.Mediator.UnitTests.Builder;
 
 internal class SenderBuilder
 {

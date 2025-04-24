@@ -1,4 +1,4 @@
-﻿namespace Application.Core.Mediator.Internal;
+﻿namespace Application.Core.Mediator;
 
 /// <summary>
 /// Class that contains well-known service keys.
