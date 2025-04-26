@@ -5,6 +5,7 @@
   </ItemGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\Application.Core.Mediator\Application.Core.Mediator.csproj" />
     <ProjectReference Include="..\Application.Core.Result\Application.Core.Result.csproj" />
   </ItemGroup>
 
