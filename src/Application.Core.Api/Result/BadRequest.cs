@@ -18,11 +18,21 @@ public record BadRequest : ProblemDetails
 
         var errors = validationFailures.GroupBy(f => f.PropertyName)
                                        .ToDictionary(g => g.Key, g => g.Select(f => f.ErrorMessage).ToArray());
+        
         Extensions = new Dictionary<string, object?>(Extensions)
         {
             {
-                "errors", errors
+                ErrorsKey, errors
             }
         };
     }
+
+    /// <summary>
+    /// Gets the errors.
+    /// </summary>
+    public IReadOnlyDictionary<string, string[]> Errors => 
+        (IReadOnlyDictionary<string, string[]>)(Extensions[ErrorsKey] ?? throw new InvalidOperationException("No errors found.")) ;
+    
+    
+    private const string ErrorsKey = "errors";
 }
