@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Core.Mediator.I
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Core.Api", "src\Application.Core.Api\Application.Core.Api.csproj", "{7A6A2FF8-AF04-4F37-977A-55CD475DA22E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Core.Api.UnitTests", "tests\Application.Core.Api.UnitTests\Application.Core.Api.UnitTests.csproj", "{5D3E1443-83DE-484D-A244-8B28B33458AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +70,10 @@ Global
 		{7A6A2FF8-AF04-4F37-977A-55CD475DA22E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A6A2FF8-AF04-4F37-977A-55CD475DA22E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A6A2FF8-AF04-4F37-977A-55CD475DA22E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D3E1443-83DE-484D-A244-8B28B33458AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D3E1443-83DE-484D-A244-8B28B33458AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D3E1443-83DE-484D-A244-8B28B33458AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D3E1443-83DE-484D-A244-8B28B33458AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7D9B38B4-9596-471B-B11E-084E3C214DF2} = {5C4F8093-A296-4F76-9C64-4BEADB63000F}
@@ -78,5 +84,6 @@ Global
 		{BDF17185-421D-41D0-9071-97677BC7F261} = {527C0946-37AF-4E04-9FED-774773491B4E}
 		{73F78B61-01B1-48DE-8412-6FD31426ED36} = {527C0946-37AF-4E04-9FED-774773491B4E}
 		{7A6A2FF8-AF04-4F37-977A-55CD475DA22E} = {5C4F8093-A296-4F76-9C64-4BEADB63000F}
+		{5D3E1443-83DE-484D-A244-8B28B33458AA} = {527C0946-37AF-4E04-9FED-774773491B4E}
 	EndGlobalSection
 EndGlobal
