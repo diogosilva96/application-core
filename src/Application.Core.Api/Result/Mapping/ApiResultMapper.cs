@@ -20,7 +20,7 @@ internal class ApiResultMapper(ILogger<ApiResultMapper> logger, HttpContext http
                 {
                     Ok ok => Results.Ok(ok.Value),
                     Created created => Results.Created(created.Uri, created.Value),
-                    NoContent _ => Results.NoContent(),
+                    NoContent => Results.NoContent(),
                     Accepted accepted => Results.Accepted(accepted.Uri?.ToString(), accepted.Value),
                     _ => throw new InvalidOperationException($"Unhandled success result type '{success.GetType()}'")
                 };

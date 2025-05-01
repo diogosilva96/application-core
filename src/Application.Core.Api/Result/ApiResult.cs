@@ -8,10 +8,10 @@ namespace Application.Core.Api.Result;
 public record ApiResult : Result<Success, ProblemDetails>
 {
     /// <summary>
-    /// Creates a new instance of <see cref="ApiResult"/> with the given <paramref name="success"/>.
+    /// Creates a new instance of <see cref="ApiResult"/> with the given <paramref name="value"/>.
     /// </summary>
-    /// <param name="success">The success result.</param>
-    public ApiResult(Success success) : base(success)
+    /// <param name="value">The success result.</param>
+    public ApiResult(Success value) : base(value)
     { }
 
     /// <summary>
@@ -21,7 +21,7 @@ public record ApiResult : Result<Success, ProblemDetails>
     public ApiResult(ProblemDetails problemDetails) : base(problemDetails)
     { }
     
-    public static implicit operator ApiResult(Success success) => new(success);
+    public static implicit operator ApiResult(Success value) => new(value);
     
     public static implicit operator ApiResult(ProblemDetails problemDetails) => new(problemDetails);
 }
