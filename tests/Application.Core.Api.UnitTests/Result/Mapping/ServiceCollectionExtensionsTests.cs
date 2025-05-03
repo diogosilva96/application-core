@@ -1,0 +1,29 @@
+﻿using Application.Core.Api.Result.Mapping;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using NSubstitute;
+
+namespace Application.Core.Api.UnitTests.Result.Mapping;
+
+public class ServiceCollectionExtensionsTests
+{
+    private readonly ServiceCollection _serviceCollection;
+
+    public ServiceCollectionExtensionsTests()
+    {
+        _serviceCollection = [];
+        _serviceCollection.AddLogging()
+                          .AddSingleton(Substitute.For<HttpContext>());
+    }
+
+    [Fact]
+    public void AddApiResultMapping_RegistersApiResultMapper()
+    {
+        // Act
+        using var serviceProvider = _serviceCollection.AddApiResultMapping()
+                                                      .BuildServiceProvider();
+
+        // Assert
+        Assert.NotNull(serviceProvider.GetService<IApiResultMapper>());
+    }
+}
