@@ -3,7 +3,7 @@
 public class ResultTests
 {
     [Fact]
-    public void Constructor_CreatesSuccessfulTypedErrorResult_WhenAValueIsSpecifiedUsingImplicitConversion()
+    public void Constructor_CreatesSuccessfulTypedErrorResultUsingImplicitConversion_WhenAValueIsSpecified()
     {
         // Arrange
         const string value = "test";
@@ -19,7 +19,7 @@ public class ResultTests
     }
 
     [Fact]
-    public void Constructor_CreatesErrorTypedErrorResult_WhenAnErrorIsSpecifiedUsingImplicitConversion()
+    public void Constructor_CreatesErrorTypedErrorResultUsingImplicitConversion_WhenAnErrorIsSpecified()
     {
         // Arrange
         var error = new Error("test error");
@@ -291,7 +291,7 @@ public class ResultTests
     }
 
     [Fact]
-    public void Constructor_CreatesSuccessfulResult_WhenAValueIsSpecifiedUsingImplicitConversion()
+    public void Constructor_CreatesSuccessfulResultUsingImplicitConversion_WhenAValueIsSpecified()
     {
         // Arrange
         const string value = "test";
@@ -307,7 +307,7 @@ public class ResultTests
     }
 
     [Fact]
-    public void Constructor_CreatesErrorResult_WhenAnErrorIsSpecifiedUsingImplicitConversion()
+    public void Constructor_CreatesErrorResultUsingImplicitConversion_WhenAnErrorIsSpecified()
     {
         // Arrange
         var error = new Error("test error");
