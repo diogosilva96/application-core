@@ -3,4 +3,4 @@
 /// <summary>
 /// Represents a success result.
 /// </summary>
-public record Success;
+public abstract record Success;
