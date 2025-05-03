@@ -19,12 +19,7 @@ public record BadRequest : ProblemDetails
         var errors = validationFailures.GroupBy(f => f.PropertyName)
                                        .ToDictionary(g => g.Key, g => g.Select(f => f.ErrorMessage).ToArray());
         
-        Extensions = new Dictionary<string, object?>(Extensions)
-        {
-            {
-                ErrorsKey, errors
-            }
-        };
+        AddExtension(ErrorsKey, errors);
     }
 
     /// <summary>

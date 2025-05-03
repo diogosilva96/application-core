@@ -49,5 +49,38 @@ public record ProblemDetails : Error
     /// <summary>
     /// The extensions.
     /// </summary>
-    public IReadOnlyDictionary<string, object?> Extensions { get; init; } = new Dictionary<string, object?>();
+    public IReadOnlyDictionary<string, object?> Extensions
+    {
+        get => _extensions;
+        init
+        {
+            var extensions = new Dictionary<string, object?>(_extensions, StringComparer.OrdinalIgnoreCase);
+            foreach (var (key, val) in value)
+            {
+                if (!extensions.TryAdd(key, val))
+                {
+                    throw new InvalidOperationException($"The key '{key}' already exists in the extensions.");
+                }
+            }
+            _extensions = extensions;
+        }
+    }
+
+    private readonly Dictionary<string, object?> _extensions = new(StringComparer.OrdinalIgnoreCase);
+
+    /// <summary>
+    /// Adds and entry to the extension dictionary.
+    /// </summary>
+    /// <param name="key">The key.</param>
+    /// <param name="value">The value.</param>
+    /// <exception cref="InvalidOperationException">
+    /// Exception thrown when there is already a key for the given <paramref name="key"/>.
+    /// </exception>
+    protected void AddExtension(string key, object? value)
+    {
+        if (!_extensions.TryAdd(key, value))
+        {
+            throw new InvalidOperationException($"The key '{key}' already exists in the extensions.");
+        }
+    }
 }
