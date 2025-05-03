@@ -3,7 +3,7 @@
 public class ResultTests
 {
     [Fact]
-    public void CreateResult_CreatesSuccessfulTypedErrorResult_WhenAValueIsSpecifiedUsingImplicitConversion()
+    public void Constructor_CreatesSuccessfulTypedErrorResult_WhenAValueIsSpecifiedUsingImplicitConversion()
     {
         // Arrange
         const string value = "test";
@@ -19,7 +19,7 @@ public class ResultTests
     }
 
     [Fact]
-    public void CreateResult_CreatesErrorTypedErrorResult_WhenAnErrorIsSpecifiedUsingImplicitConversion()
+    public void Constructor_CreatesErrorTypedErrorResult_WhenAnErrorIsSpecifiedUsingImplicitConversion()
     {
         // Arrange
         var error = new Error("test error");
@@ -35,7 +35,7 @@ public class ResultTests
     }
 
     [Fact]
-    public void CreateResult_CreatesSuccessfulTypedErrorResult_WhenAValueIsSpecified()
+    public void Constructor_CreatesSuccessfulTypedErrorResult_WhenAValueIsSpecified()
     {
         // Arrange
         const string value = "test";
@@ -51,7 +51,7 @@ public class ResultTests
     }
 
     [Fact]
-    public void CreateResult_ThrowsArgumentNullForTypedErrorResult_WhenNoValueIsSpecified()
+    public void Constructor_ThrowsArgumentNullForTypedErrorResult_WhenNoValueIsSpecified()
     {
         // Arrange
         string value = null!;
@@ -61,7 +61,7 @@ public class ResultTests
     }
 
     [Fact]
-    public void CreateResult_CreatesErrorTypedErrorResult_WhenAnErrorIsSpecified()
+    public void Constructor_CreatesErrorTypedErrorResult_WhenAnErrorIsSpecified()
     {
         // Arrange
         var error = new Error("test error");
@@ -77,7 +77,7 @@ public class ResultTests
     }
 
     [Fact]
-    public void CreateResult_ThrowsArgumentNullForErrorTypedResult_WhenNoErrorIsSpecified()
+    public void Constructor_ThrowsArgumentNullForErrorTypedResult_WhenNoErrorIsSpecified()
     {
         // Arrange
         Error error = null!;
@@ -291,7 +291,7 @@ public class ResultTests
     }
 
     [Fact]
-    public void CreateResult_CreatesSuccessfulResult_WhenAValueIsSpecifiedUsingImplicitConversion()
+    public void Constructor_CreatesSuccessfulResult_WhenAValueIsSpecifiedUsingImplicitConversion()
     {
         // Arrange
         const string value = "test";
@@ -307,7 +307,7 @@ public class ResultTests
     }
 
     [Fact]
-    public void CreateResult_CreatesErrorResult_WhenAnErrorIsSpecifiedUsingImplicitConversion()
+    public void Constructor_CreatesErrorResult_WhenAnErrorIsSpecifiedUsingImplicitConversion()
     {
         // Arrange
         var error = new Error("test error");
@@ -323,7 +323,7 @@ public class ResultTests
     }
 
     [Fact]
-    public void CreateResult_CreatesSuccessfulResult_WhenAValueIsSpecified()
+    public void Constructor_CreatesSuccessfulResult_WhenAValueIsSpecified()
     {
         // Arrange
         const string value = "test";
@@ -339,7 +339,7 @@ public class ResultTests
     }
 
     [Fact]
-    public void CreateResult_ThrowsArgumentNull_WhenNoValueIsSpecified()
+    public void Constructor_ThrowsArgumentNull_WhenNoValueIsSpecified()
     {
         // Arrange
         string value = null!;
@@ -349,7 +349,7 @@ public class ResultTests
     }
 
     [Fact]
-    public void CreateResult_CreatesErrorResult_WhenAnErrorIsSpecified()
+    public void Constructor_CreatesErrorResult_WhenAnErrorIsSpecified()
     {
         // Arrange
         var error = new Error("test error");
@@ -365,7 +365,7 @@ public class ResultTests
     }
 
     [Fact]
-    public void CreateResult_ThrowsArgumentNull_WhenNoErrorIsSpecified()
+    public void Constructor_ThrowsArgumentNull_WhenNoErrorIsSpecified()
     {
         // Arrange
         Error error = null!;
