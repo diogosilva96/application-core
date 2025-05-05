@@ -29,10 +29,6 @@
     <PackageReference Include="xunit.v3" Version="2.0.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.0.2" />
   </ItemGroup>
-
-  <ItemGroup>
-    <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
-  </ItemGroup>
   
   <ItemGroup>
     <ProjectReference Include="..\..\src\Application.Core.Api\Application.Core.Api.csproj" />
