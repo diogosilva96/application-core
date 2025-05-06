@@ -1,7 +1,13 @@
-﻿# # Application.Core.Mediator.Sample
-Sample application demonstrating the usage of the `Application.Core.Mediator` library.
+﻿# Application.Core.Mediator.Sample
 
-The application has a request of type `Ping` that returns `Pong` and a handler of type `PingHandler`.
-Two behaviors are used to decorate the handler:
-- A `MeasurementBehavior` for measuring how long it takes to handle the request
-- A `FluentValidationBehavior` for automatically validating the request before handling it
+This sample application demonstrates the usage of the `Application.Core.Mediator` library.
+
+## Overview
+
+The application includes the following components:
+
+- **Request**: A `Ping` request that returns a `Pong` response.
+- **Handler**: A `PingHandler` responsible for processing the `Ping` request.
+- **Behaviors**: Two behaviors that decorate the handler:
+    - `MeasurementBehavior`: Measures the time taken to handle the request.
+    - `FluentValidationBehavior`: Automatically validates the request before it is processed.
