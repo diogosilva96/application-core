@@ -17,7 +17,7 @@ public class ServiceCollectionExtensionsTests
     }
 
     [Fact]
-    public void AddApiResultMapping_RegistersApiResultMapper()
+    public void AddApiResultMapping_RegistersExpectedServices()
     {
         // Act
         using var serviceProvider = _serviceCollection.AddApiResultMapping()
@@ -25,5 +25,6 @@ public class ServiceCollectionExtensionsTests
 
         // Assert
         Assert.NotNull(serviceProvider.GetService<IApiResultMapper>());
+        Assert.NotNull(serviceProvider.GetService<IHttpContextAccessor>());
     }
 }

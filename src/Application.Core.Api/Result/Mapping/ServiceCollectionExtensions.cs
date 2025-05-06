@@ -13,5 +13,6 @@ public static class ServiceCollectionExtensions
     /// <param name="serviceCollection">The service collection to add the services for.</param>
     /// <returns>The given <see cref="IServiceCollection" /> with the API result mapping services configured.</returns>
     public static IServiceCollection AddApiResultMapping(this IServiceCollection serviceCollection) =>
-        serviceCollection.AddTransient<IApiResultMapper, ApiResultMapper>();
+        serviceCollection.AddTransient<IApiResultMapper, ApiResultMapper>()
+                         .AddHttpContextAccessor();
 }
