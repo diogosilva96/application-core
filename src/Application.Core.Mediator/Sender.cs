@@ -31,7 +31,7 @@ internal class Sender(IServiceProvider serviceProvider, [FromKeyedServices(Servi
             }
             
             var currentBehavior = behaviorsSlice[0];
-            return (Task<TResponse>)behaviorMethod.Invoke(currentBehavior, [request, () => HandleInternalAsync(index + 1), cancellationToken])!;
+            return (Task<TResponse>)(behaviorMethod.Invoke(currentBehavior, [request, () => HandleInternalAsync(index + 1), cancellationToken]) ?? throw new InvalidOperationException($"Behavior '{currentBehavior.GetType().Name}' for request of type '{request.GetType().Name}' and response of type '{typeof(TResponse).Name}' should not return null when handling the request."));
         }
     }
 
@@ -51,6 +51,6 @@ internal class Sender(IServiceProvider serviceProvider, [FromKeyedServices(Servi
             methodCache.TryAdd(handlerType, handlerMethod);
         }
         
-        return (Task<TResponse>)handlerMethod.Invoke(handler, [request, cancellationToken ])!;
+        return (Task<TResponse>)(handlerMethod.Invoke(handler, [request, cancellationToken ]) ?? throw new InvalidOperationException($"Handler '{handlerType.Name}' for request of type '{request.GetType().Name}' and response of type '{typeof(TResponse).Name}' should not return null when handling the request."));
     }
 }
