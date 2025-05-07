@@ -1,3 +1,4 @@
+using Application.Core.Api.RequestProcessing;
 using Application.Core.Api.Result.Mapping;
 using Application.Core.Api.Sample;
 using Application.Core.Api.Validation;
@@ -16,6 +17,7 @@ builder.Services
 
 // Application.Core.Api related services registration below
 builder.Services
+       .AddApiRequestProcessor()
        .AddApiResultMapping()
        .AddMediator(c => c.AddValidationBehavior()
                           .AddHandlersFromAssemblyContaining<Program>());
@@ -31,11 +33,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("api/echo", async (ISender sender,IApiResultMapper resultMapper, [FromBody] EchoRequest request, CancellationToken cancellationToken) =>
-   { 
-       var apiResult = await sender.SendAsync(request, cancellationToken);
-       return resultMapper.Map(apiResult);
-   })
+app.MapPost("api/echo", (IApiRequestProcessor processor, [FromBody] EchoRequest request, CancellationToken cancellationToken) => 
+   processor.ProcessAsync(request, cancellationToken))
 .WithName("Echo");
 
 app.Run();
