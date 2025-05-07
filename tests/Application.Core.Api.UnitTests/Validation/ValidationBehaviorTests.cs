@@ -1,5 +1,5 @@
 ﻿using Application.Core.Api.Result;
-using Application.Core.Api.UnitTests.Validation.Utils;
+using Application.Core.Api.UnitTests.Utils;
 using Application.Core.Api.Validation;
 using AutoFixture;
 using FluentValidation;

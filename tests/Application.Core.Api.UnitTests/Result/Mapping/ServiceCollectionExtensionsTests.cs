@@ -1,7 +1,6 @@
 ﻿using Application.Core.Api.Result.Mapping;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using NSubstitute;
 
 namespace Application.Core.Api.UnitTests.Result.Mapping;
 
@@ -12,8 +11,7 @@ public class ServiceCollectionExtensionsTests
     public ServiceCollectionExtensionsTests()
     {
         _serviceCollection = [];
-        _serviceCollection.AddLogging()
-                          .AddSingleton(Substitute.For<HttpContext>());
+        _serviceCollection.AddLogging();
     }
 
     [Fact]

@@ -3,7 +3,7 @@
 namespace Application.Core.Api.Result.Mapping;
 
 /// <summary>
-/// Class that contains extension methods for <see cref="" />
+/// Class that contains extension methods for <see cref="IServiceCollection" />
 /// </summary>
 public static class ServiceCollectionExtensions
 {
