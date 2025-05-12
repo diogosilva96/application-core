@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Application.Core.Api.Utils;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Core.Api.Result.Mapping;
@@ -17,8 +18,9 @@ internal class ApiResultMapper(ILogger<ApiResultMapper> logger, IHttpContextAcce
             {
                 if (httpContextAccessor.HttpContext?.Request is not null)
                 {
-                    logger.LogInformation("Got {Success} for request {Request}", success, RequestDescriptors.For(httpContextAccessor.HttpContext.Request));
+                    logger.LogInformation("Got {Success} for endpoint {Endpoint}", success, EndpointDescriptors.For(httpContextAccessor.HttpContext.Request));
                 }
+                
                 return success switch
                 {
                     Ok ok => Results.Ok(ok.Value),
@@ -30,10 +32,11 @@ internal class ApiResultMapper(ILogger<ApiResultMapper> logger, IHttpContextAcce
             },
             problemDetails =>
             {
-                if (httpContextAccessor.HttpContext?.Request is not null)
+                if (httpContextAccessor.HttpContext is not null)
                 {
-                    logger.LogWarning("Got {ProblemDetails} for request {Request}", problemDetails, RequestDescriptors.For(httpContextAccessor.HttpContext.Request));
+                    logger.LogWarning("Got {ProblemDetails} for endpoint {Endpoint}", problemDetails, EndpointDescriptors.For(httpContextAccessor.HttpContext.Request));
                 }
+                
                 return Results.Problem(problemDetails.Detail,
                     problemDetails.Instance,
                     problemDetails.Status,
