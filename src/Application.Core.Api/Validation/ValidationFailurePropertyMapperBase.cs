@@ -3,7 +3,7 @@
 namespace Application.Core.Api.Validation;
 
 /// <summary>
-/// Represents a base class for mapping validation failures.
+/// Represents a base class for mapping validation failure properties.
 /// </summary>
 public abstract class ValidationFailurePropertyMapperBase : IValidationFailurePropertyMapper
 {
