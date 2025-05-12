@@ -19,15 +19,12 @@ public record BadRequest : ProblemDetails
         var errors = validationFailures.GroupBy(f => f.PropertyName)
                                        .ToDictionary(g => g.Key, g => g.Select(f => f.ErrorMessage).ToArray());
         
-        AddExtension(ErrorsKey, errors);
+        AddExtension(ProblemDetailsExtensionKeys.Errors, errors);
     }
 
     /// <summary>
     /// Gets the errors.
     /// </summary>
     public IReadOnlyDictionary<string, string[]> Errors => 
-        (IReadOnlyDictionary<string, string[]>)(Extensions[ErrorsKey] ?? throw new InvalidOperationException("No errors found.")) ;
-    
-    
-    private const string ErrorsKey = "errors";
+        (IReadOnlyDictionary<string, string[]>)(Extensions[ProblemDetailsExtensionKeys.Errors] ?? throw new InvalidOperationException("No errors found.")) ;
 }
