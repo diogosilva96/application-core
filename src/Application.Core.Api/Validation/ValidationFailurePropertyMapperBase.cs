@@ -26,7 +26,7 @@ public abstract class ValidationFailurePropertyMapperBase : IValidationFailurePr
                 }
             }
             // when no mapping is found, return 'unknown property', so that we don't leak internal details
-            return _propertyMapping.GetValueOrDefault(propertyName, "unknown property" );
+            return _propertyMapping.GetValueOrDefault(propertyName, "unknown property");
         }
     }
 
