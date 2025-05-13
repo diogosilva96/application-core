@@ -26,7 +26,7 @@ public abstract class ValidationFailurePropertyMapperBase : IValidationFailurePr
                 }
             }
             // when no mapping is found, return 'unknown property', so that we don't leak internal details
-            return _propertyMapping.GetValueOrDefault(propertyName, "unknown property");
+            return _propertyMapping.GetValueOrDefault(propertyName, PropertyNames.Unknown);
         }
     }
 
@@ -40,7 +40,7 @@ public abstract class ValidationFailurePropertyMapperBase : IValidationFailurePr
         ArgumentNullException.ThrowIfNull(propertyNamePredicate);
         ArgumentException.ThrowIfNullOrWhiteSpace(mappedPropertyName);
         
-        _conditionalPropertyMapping.Add((propertyNamePredicate, ToMappedPropertyName(mappedPropertyName)));
+        _conditionalPropertyMapping.Add((propertyNamePredicate, mappedPropertyName));
     }
 
     /// <summary>
@@ -53,7 +53,7 @@ public abstract class ValidationFailurePropertyMapperBase : IValidationFailurePr
         ArgumentException.ThrowIfNullOrWhiteSpace(propertyName);
         ArgumentException.ThrowIfNullOrWhiteSpace(mappedPropertyName);
         
-        _propertyMapping.TryAdd(propertyName, ToMappedPropertyName(mappedPropertyName));
+        _propertyMapping.TryAdd(propertyName, mappedPropertyName);
     }
 
     /// <summary>
@@ -68,7 +68,4 @@ public abstract class ValidationFailurePropertyMapperBase : IValidationFailurePr
             ConfigurePropertyMapping(propertyInfo.Name, propertyInfo.Name);
         }
     }
-
-    private static string ToMappedPropertyName(string mappedPropertyName) => 
-        $"{char.ToLowerInvariant(mappedPropertyName[0])}{mappedPropertyName[1..]}";
 }
