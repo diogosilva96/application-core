@@ -1,4 +1,5 @@
-﻿using Application.Core.Api.Utils;
+﻿using System.Text.RegularExpressions;
+using Application.Core.Api.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -42,7 +43,7 @@ public class ValidationFailureMapper(IHttpContextAccessor httpContextAccessor, I
         foreach (var (propertyName, failures) in validationFailures)
         {
             var mappedPropertyName = propertyMapper[propertyName];
-            var mappedErrorMessages = failures.Select(f => f.Replace(propertyName, mappedPropertyName, StringComparison.OrdinalIgnoreCase)).ToArray();
+            var mappedErrorMessages = failures.Select(f => Regex.Replace(f, @$"\b{propertyName}\b", mappedPropertyName, RegexOptions.IgnoreCase)).ToArray();
             if (mappedFailures.TryGetValue(mappedPropertyName, out var existingErrorMessages))
             {
                 mappedFailures[mappedPropertyName] = mappedErrorMessages.Concat(existingErrorMessages).ToArray();

@@ -112,6 +112,40 @@ public class ValidationFailureMapperTests
     }
     
     [Fact]
+    public void Map_ReturnsMappedValidationFailures_WhenPassingErrorMessageWithWordWithoutSpaces()
+    {
+        // Arrange
+        var propertyMapperBinding = new ValidationFailurePropertyMapperBinding(typeof(TestRequestValidationFailurePropertyMapper));
+        var serviceCollection = new ServiceCollection().AddSingleton<IValidationFailurePropertyMapper>(_ =>
+        {
+            var mapper = new TestRequestValidationFailurePropertyMapper();
+            mapper.ConfigureMapping("Field1", "MappedField1");
+            return mapper;
+        });
+
+        var httpContext = new HttpContextBuilder().WithEndpoint([propertyMapperBinding])
+                                                  .WithRequestServices(serviceCollection.BuildServiceProvider())
+                                                  .Build();
+        _httpContextAccessor.HttpContext.Returns(httpContext);
+
+        var validationFailures = new Dictionary<string, string[]>
+        {
+            { "Field1", ["Error1 withField1", "Error1 with Field123"] },
+        };
+
+        var expectedValidationFailures = new Dictionary<string, string[]>
+        {
+            { "MappedField1", ["Error1 withField1", "Error1 with Field123"] },
+        };
+
+        // Act
+        var result = _mapper.Map(validationFailures);
+
+        // Assert
+        Assert.Equal(expectedValidationFailures, result);
+    }
+    
+    [Fact]
     public void Map_ReturnsMappedValidationFailures_WhenPassingUnmappedProperty()
     {
         // Arrange
