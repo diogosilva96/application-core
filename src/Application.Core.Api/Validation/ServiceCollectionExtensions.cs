@@ -14,7 +14,7 @@ public static class ServiceCollectionExtensions
     /// Adds the required services for validation failure mapping to the specified <see cref="IServiceCollection" />.
     /// </summary>
     /// <param name="serviceCollection"> The service collection to add the services for.</param>
-    /// <param name="assemblies">The assemblies containing the implementation for the<see cref="IValidationFailurePropertyMapper" />.</param>
+    /// <param name="assemblies">The assemblies containing the implementation for the <see cref="IValidationFailurePropertyMapper" />.</param>
     /// <returns>The service collection with the added services.</returns>
     public static IServiceCollection AddValidationFailureMapping(this IServiceCollection serviceCollection, params Assembly[] assemblies)
     {
