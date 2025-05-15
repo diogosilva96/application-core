@@ -25,7 +25,7 @@ public sealed class RouteHandlerBuilderExtensionsTests : IAsyncDisposable
         // Act
         _routeHandlerBuilder.WithValidationFailurePropertyMapper<TestRequestValidationFailurePropertyMapper>();
         
-        // we need to start the web application to be able to fetch the endpoint metadata
+        // we need to start the web application to be able to fetch the endpoint related services
         _webApplication.StartAsync(TestContext.Current.CancellationToken);
         
         // Assert
