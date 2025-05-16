@@ -5,6 +5,7 @@
 /// </summary>
 /// <typeparam name="T">The type for the value of the result.</typeparam>
 /// <typeparam name="TError">The error type of the result.</typeparam>
+// TODO: Consider supporting Result<TError> where TError : IError for a result without a value (void)
 public record Result<T, TError> where TError : IError
 {
     /// <summary>
