@@ -7,10 +7,16 @@ namespace Application.Core.Api.UnitTests.Validation;
 
 public class ServiceCollectionExtensionsTests
 {
-    private readonly ServiceCollection _serviceCollection = [];
+    private readonly ServiceCollection _serviceCollection;
+
+    public ServiceCollectionExtensionsTests()
+    {
+        _serviceCollection = [];
+        _serviceCollection.AddLogging();
+    }
 
     [Fact]
-    public void AddValidationFailureMapping_ShouldRegisterIValidationFailureMapper()
+    public void AddValidationFailureMapping_ShouldRegisterValidationFailureMapper()
     {
         // Act
         _serviceCollection.AddValidationFailureMapping();
