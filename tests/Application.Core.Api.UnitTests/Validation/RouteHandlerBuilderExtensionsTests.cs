@@ -23,7 +23,7 @@ public sealed class RouteHandlerBuilderExtensionsTests : IAsyncDisposable
     public void WithValidationFailurePropertyMapper_ShouldRegisterValidationFailurePropertyMapperBindingMetadata()
     {
         // Act
-        _routeHandlerBuilder.WithValidationFailurePropertyMapper<TestRequestValidationFailurePropertyMapper>();
+        _routeHandlerBuilder.WithValidationFailurePropertyMapper<TestValidationFailurePropertyMapper>();
         
         // we need to start the web application to be able to fetch the endpoint related services
         _webApplication.StartAsync(TestContext.Current.CancellationToken);
@@ -31,7 +31,7 @@ public sealed class RouteHandlerBuilderExtensionsTests : IAsyncDisposable
         // Assert
         var endpoints = _webApplication.Services.GetRequiredService<EndpointDataSource>().Endpoints;
         Assert.Contains(endpoints, endpoint => endpoint.Metadata.Any(x => x is ValidationFailurePropertyMapperBinding binding && 
-                                                                          binding.MapperType == typeof(TestRequestValidationFailurePropertyMapper)));
+                                                                          binding.MapperType == typeof(TestValidationFailurePropertyMapper)));
     }
 
     public async ValueTask DisposeAsync()

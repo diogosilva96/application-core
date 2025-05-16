@@ -41,12 +41,12 @@ public class ServiceCollectionExtensionsTests
     public void AddValidationFailureMapping_ShouldRegisterMappersFromAssemblies()
     {
         // Act
-        _serviceCollection.AddValidationFailureMapping(typeof(TestRequestValidationFailurePropertyMapper).Assembly);
+        _serviceCollection.AddValidationFailureMapping(typeof(TestValidationFailurePropertyMapper).Assembly);
         var serviceProvider = _serviceCollection.BuildServiceProvider();
 
         // Assert
         var mappers = serviceProvider.GetServices<IValidationFailurePropertyMapper>().ToArray();
         Assert.NotEmpty(mappers);
-        Assert.Contains(mappers, mapper => mapper.GetType() == typeof(TestRequestValidationFailurePropertyMapper));
+        Assert.Contains(mappers, mapper => mapper.GetType() == typeof(TestValidationFailurePropertyMapper));
     }
 }

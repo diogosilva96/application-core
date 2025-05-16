@@ -9,7 +9,7 @@ public class ValidationFailurePropertyMapperBindingTests
     public void Constructor_ShouldCreateInstance_WithValidMapperType()
     {
         // Arrange
-        var mapperType = typeof(TestRequestValidationFailurePropertyMapper);
+        var mapperType = typeof(TestValidationFailurePropertyMapper);
 
         // Act
         var binding = new ValidationFailurePropertyMapperBinding(mapperType);

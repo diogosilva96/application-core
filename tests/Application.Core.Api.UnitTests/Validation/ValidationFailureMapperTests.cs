@@ -60,7 +60,7 @@ public class ValidationFailureMapperTests
     {
         // Arrange
         var httpContext = new HttpContextBuilder()
-                          .WithEndpoint([new ValidationFailurePropertyMapperBinding(typeof(TestRequestValidationFailurePropertyMapper))])
+                          .WithEndpoint([new ValidationFailurePropertyMapperBinding(typeof(TestValidationFailurePropertyMapper))])
                           .WithRequestServices(new ServiceCollection().BuildServiceProvider())
                           .Build();
         _httpContextAccessor.HttpContext.Returns(httpContext);
@@ -78,12 +78,12 @@ public class ValidationFailureMapperTests
     public void Map_ReturnsMappedValidationFailures()
     {
         // Arrange
-        var propertyMapperBinding = new ValidationFailurePropertyMapperBinding(typeof(TestRequestValidationFailurePropertyMapper));
+        var propertyMapperBinding = new ValidationFailurePropertyMapperBinding(typeof(TestValidationFailurePropertyMapper));
         var serviceCollection = new ServiceCollection().AddSingleton<IValidationFailurePropertyMapper>(_ =>
         {
-            var mapper = new TestRequestValidationFailurePropertyMapper();
-            mapper.ConfigureMapping("Field1", "MappedField1");
-            mapper.ConfigureMapping("Id", "Identifier");
+            var mapper = new TestValidationFailurePropertyMapper();
+            mapper.ConfigurePropertyMapping("Field1", "MappedField1");
+            mapper.ConfigurePropertyMapping("Id", "Identifier");
             return mapper;
         });
 
@@ -115,11 +115,11 @@ public class ValidationFailureMapperTests
     public void Map_ReturnsMappedValidationFailures_WhenPassingErrorMessageWithWordWithoutSpaces()
     {
         // Arrange
-        var propertyMapperBinding = new ValidationFailurePropertyMapperBinding(typeof(TestRequestValidationFailurePropertyMapper));
+        var propertyMapperBinding = new ValidationFailurePropertyMapperBinding(typeof(TestValidationFailurePropertyMapper));
         var serviceCollection = new ServiceCollection().AddSingleton<IValidationFailurePropertyMapper>(_ =>
         {
-            var mapper = new TestRequestValidationFailurePropertyMapper();
-            mapper.ConfigureMapping("Field1", "MappedField1");
+            var mapper = new TestValidationFailurePropertyMapper();
+            mapper.ConfigurePropertyMapping("Field1", "MappedField1");
             return mapper;
         });
 
@@ -149,8 +149,8 @@ public class ValidationFailureMapperTests
     public void Map_ReturnsMappedValidationFailures_WhenPassingUnmappedProperty()
     {
         // Arrange
-        var propertyMapperBinding = new ValidationFailurePropertyMapperBinding(typeof(TestRequestValidationFailurePropertyMapper));
-        var serviceCollection = new ServiceCollection().AddSingleton<IValidationFailurePropertyMapper, TestRequestValidationFailurePropertyMapper>();
+        var propertyMapperBinding = new ValidationFailurePropertyMapperBinding(typeof(TestValidationFailurePropertyMapper));
+        var serviceCollection = new ServiceCollection().AddSingleton<IValidationFailurePropertyMapper, TestValidationFailurePropertyMapper>();
 
         var httpContext = new HttpContextBuilder().WithEndpoint([propertyMapperBinding])
                                                   .WithRequestServices(serviceCollection.BuildServiceProvider())
