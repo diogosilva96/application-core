@@ -5,7 +5,7 @@ namespace Application.Core.Api.Result;
 /// <summary>
 /// Represents a problem details result.
 /// </summary>
-public record ProblemDetails : Error
+public record ProblemDetails : IError
 {
     /// <summary>
     /// Creates a new instance of <see cref="ProblemDetails"/>.
@@ -13,14 +13,24 @@ public record ProblemDetails : Error
     /// <param name="message">The error message.</param>
     /// <param name="status">The status.</param>
     /// <exception cref="ArgumentOutOfRangeException">
-    /// Exception thrown when the <paramref name="status"/> is not in the expected problem details range.
+    /// Exception thrown when the <paramref name="message"/> is not specified,
+    /// or when the <paramref name="status"/> is not in the expected problem details range.
     /// </exception>
-    public ProblemDetails(string message, int status = 500) : base(message)
+    public ProblemDetails(string message, int status = 500)
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(message);
         ArgumentOutOfRangeException.ThrowIfLessThan(status, 400);
         ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(status, 600);
+        
+        Message = message;
         Status = status;
     }
+    
+    /// <summary>
+    /// Gets the message.
+    /// </summary>
+    public string Message { get; }
+    
     /// <summary>
     /// Gets or initializes the type.
     /// </summary>
@@ -82,5 +92,40 @@ public record ProblemDetails : Error
         {
             throw new InvalidOperationException($"The key '{key}' already exists in the extensions.");
         }
+    }
+    
+    /// <inheritdoc />
+    public string ToDetailedErrorMessage()
+    {
+        var message = $"{Message}.";
+
+        if (Type is not null)
+        {
+            message += $" Type: {Type}.";
+        }
+
+        if (Title is not null)
+        {
+            message += $" Title: {Title}.";
+        }
+
+        if (Detail is not null)
+        {
+            message += $" Detail: {Detail}.";
+        }
+
+        if (Instance is not null)
+        {
+            message += $" Instance: {Instance}.";
+        }
+
+        message += $" Status: {Status}.";
+
+        if (_extensions.Count > 0)
+        {
+            message += "Extensions: " + string.Join(", ", _extensions.Select(x => $"{x.Key}={x.Value}")) + ".";
+        }
+
+        return message;
     }
 }
