@@ -18,20 +18,18 @@ public static class ServiceCollectionExtensions
     /// <returns>The service collection with the added services.</returns>
     public static IServiceCollection AddValidationFailureMapping(this IServiceCollection serviceCollection, params Assembly[] assemblies)
     {
-        foreach (var (interfaceType, implementationType) in ScanPropertyMapperFromAssemblies(assemblies))
+        foreach (var implementationType in ScanPropertyMapperImplementationTypesFromAssemblies(assemblies))
         {
-            serviceCollection.AddSingleton(interfaceType, implementationType);
+            serviceCollection.AddSingleton(_mapperAbstractionType, implementationType);
         }
 
         return serviceCollection.AddScoped<IValidationFailureMapper, ValidationFailureMapper>()
                                 .AddHttpContextAccessor();
     }
 
-    private static (Type InterfaceType, Type ImplementationType)[] ScanPropertyMapperFromAssemblies(params Assembly[] assemblies) =>
+    private static Type[] ScanPropertyMapperImplementationTypesFromAssemblies(params Assembly[] assemblies) =>
         assemblies.SelectMany(a => a.GetTypes().Where(t => t is { IsAbstract: false, IsInterface: false } &&
-                                                           t.GetInterfaces().Any(it =>
-                                                               it.IsGenericType && it.GetGenericTypeDefinition() == _mapperAbstractionType)))
-                  .Select(t => new ValueTuple<Type, Type>(
-                      t.GetInterfaces().First(it => it.IsGenericType && it.GetGenericTypeDefinition() == _mapperAbstractionType), t))
+                                                           t.GetInterfaces().Any(it => it == _mapperAbstractionType)))
+                  .Select(t => t)
                   .ToArray();
 }
