@@ -18,6 +18,8 @@ public static class ServiceCollectionExtensions
     /// <returns>The service collection with the added services.</returns>
     public static IServiceCollection AddValidationFailureMapping(this IServiceCollection serviceCollection, params Assembly[] assemblies)
     {
+        ArgumentNullException.ThrowIfNull(serviceCollection);
+        
         foreach (var implementationType in ScanPropertyMapperImplementationTypesFromAssemblies(assemblies))
         {
             serviceCollection.AddSingleton(_mapperAbstractionType, implementationType);
