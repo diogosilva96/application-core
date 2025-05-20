@@ -16,7 +16,7 @@ public class ValidationFailureMapper(IHttpContextAccessor httpContextAccessor, I
     /// </summary>
     /// <param name="validationFailures">The validation failures to map from.</param>
     /// <returns>The mapped validation failures.</returns>
-    public Dictionary<string, string[]> Map(Dictionary<string, string[]> validationFailures)
+    public IReadOnlyDictionary<string, string[]> Map(IReadOnlyDictionary<string, string[]> validationFailures)
     {
         if (httpContextAccessor.HttpContext is null) return validationFailures;
 
@@ -37,7 +37,7 @@ public class ValidationFailureMapper(IHttpContextAccessor httpContextAccessor, I
         return MapValidationFailures(validationFailures, propertyMapper);
     }
 
-    private static Dictionary<string, string[]> MapValidationFailures(Dictionary<string, string[]> validationFailures, IValidationFailurePropertyMapper propertyMapper)
+    private static Dictionary<string, string[]> MapValidationFailures(IReadOnlyDictionary<string, string[]> validationFailures, IValidationFailurePropertyMapper propertyMapper)
     {
         var mappedFailures = new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase);
         foreach (var (propertyName, failures) in validationFailures)

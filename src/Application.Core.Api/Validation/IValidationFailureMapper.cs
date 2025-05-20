@@ -10,5 +10,5 @@ public interface IValidationFailureMapper
     /// </summary>
     /// <param name="validationFailures">The validation failures to map from.</param>
     /// <returns>The mapped validation failures.</returns>
-    public Dictionary<string, string[]> Map(Dictionary<string, string[]> validationFailures);
+    public IReadOnlyDictionary<string, string[]> Map(IReadOnlyDictionary<string, string[]> validationFailures);
 }
