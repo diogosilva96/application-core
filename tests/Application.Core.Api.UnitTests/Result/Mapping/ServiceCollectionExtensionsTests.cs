@@ -23,6 +23,5 @@ public class ServiceCollectionExtensionsTests
 
         // Assert
         Assert.NotNull(serviceProvider.GetService<IApiResultMapper>());
-        Assert.NotNull(serviceProvider.GetService<IHttpContextAccessor>());
     }
 }

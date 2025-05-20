@@ -5,6 +5,7 @@ using Application.Core.Api.UnitTests.Utils;
 using Application.Core.Mediator;
 using AutoFixture;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 
 namespace Application.Core.Api.UnitTests.RequestProcessing;
@@ -21,7 +22,7 @@ public class ApiRequestProcessorTests
         _fixture = new();
         _sender = Substitute.For<ISender>();
         _resultMapper = Substitute.For<IApiResultMapper>();
-        _processor = new(_sender, _resultMapper);
+        _processor = new(_sender, _resultMapper, Substitute.For<ILogger<ApiRequestProcessor>>());
     }
 
     [Fact]

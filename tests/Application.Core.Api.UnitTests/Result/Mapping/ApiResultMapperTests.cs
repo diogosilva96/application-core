@@ -13,7 +13,7 @@ namespace Application.Core.Api.UnitTests.Result.Mapping;
 [SuppressMessage("Usage", "xUnit1045:Avoid using TheoryData type arguments that might not be serializable")]
 public class ApiResultMapperTests
 {
-    private readonly ApiResultMapper _mapper = new(Substitute.For<ILogger<ApiResultMapper>>(), Substitute.For<IHttpContextAccessor>());
+    private readonly ApiResultMapper _mapper = new();
 
     [Theory]
     [ClassData(typeof(TestData))]
