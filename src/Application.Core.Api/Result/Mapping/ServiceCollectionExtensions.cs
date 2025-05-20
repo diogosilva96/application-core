@@ -16,7 +16,6 @@ public static class ServiceCollectionExtensions
     {
         ArgumentNullException.ThrowIfNull(serviceCollection);
         
-        return serviceCollection.AddTransient<IApiResultMapper, ApiResultMapper>()
-                         .AddHttpContextAccessor();
+        return serviceCollection.AddTransient<IApiResultMapper, ApiResultMapper>();
     }
 }
