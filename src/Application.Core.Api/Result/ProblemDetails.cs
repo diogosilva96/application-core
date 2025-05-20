@@ -1,4 +1,5 @@
-﻿using Application.Core.Result;
+﻿using System.Text.Json;
+using Application.Core.Result;
 
 namespace Application.Core.Api.Result;
 
@@ -121,9 +122,17 @@ public record ProblemDetails : IError
 
         message += $" Status: {Status}.";
 
-        if (_extensions.Count > 0)
+        // ReSharper disable once InvertIf
+        if (Extensions.Count > 0)
         {
-            message += "Extensions: " + string.Join(", ", _extensions.Select(x => $"{x.Key}={x.Value}")) + ".";
+            try
+            {
+                message += $"Extensions: {JsonSerializer.Serialize(Extensions)}";
+            }
+            catch (Exception)
+            {
+                message += "Extensions: <error serializing extensions>.";
+            }
         }
 
         return message;
