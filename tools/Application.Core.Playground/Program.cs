@@ -9,6 +9,6 @@ serviceCollection.AddValidatorsFromAssembly(typeof(Program).Assembly)
 
 var serviceProvider = serviceCollection.BuildServiceProvider();
 
-var mediator = serviceProvider.GetRequiredService<ISender>();
+var mediator = serviceProvider.GetRequiredService<IMediator>();
 
 Console.ReadLine();

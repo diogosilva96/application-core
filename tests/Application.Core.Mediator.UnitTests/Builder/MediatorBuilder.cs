@@ -4,21 +4,21 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Application.Core.Mediator.UnitTests.Builder;
 
-internal class SenderBuilder
+internal class MediatorBuilder
 {
     private IServiceProvider _serviceProvider = new ServiceCollection().BuildServiceProvider();
     private ConcurrentDictionary<Type, MethodInfo> _methodCache = new();
     
-    public Sender Build() => new(_serviceProvider, _methodCache);
+    public Mediator Build() => new(_serviceProvider, _methodCache);
 
-    public SenderBuilder With(IServiceProvider serviceProvider)
+    public MediatorBuilder With(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
 
         return this;
     }
 
-    public SenderBuilder With(ConcurrentDictionary<Type, MethodInfo> methodCache)
+    public MediatorBuilder With(ConcurrentDictionary<Type, MethodInfo> methodCache)
     {
         _methodCache = methodCache;
 

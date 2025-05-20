@@ -3,30 +3,30 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Application.Core.Mediator.IntegrationTests;
 
-public class SenderTests
+public class MediatorTests
 {
     [Fact]
-    public async Task SendAsync_ExecutesSuccessfully_WhenHandlerIsConfigured()
+    public async Task HandleAsync_ExecutesSuccessfully_WhenHandlerIsConfigured()
     {
         // Arrange
         var factory = new IntegrationTestFactory()
             .ConfigureServices(services => services.AddMediator(config => config.AddHandlersFromAssemblyContaining<TestRequest>()));
         factory.Build();
-        var sender = factory.CreateSender();
+        var mediator = factory.CreateMediator();
         var request = new TestRequest()
         {
             Value = 5
         };
 
         // Act
-        var result = await sender.SendAsync(request, TestContext.Current.CancellationToken);
+        var result = await mediator.HandleAsync(request, TestContext.Current.CancellationToken);
 
         // Assert
         Assert.Equal(request.Value, result);
     }
     
     [Fact]
-    public async Task SendAsync_ExecutesSuccessfullyAndInTheCorrectOrder_WhenHandlerAndBehaviorsAreConfigured()
+    public async Task HandleAsync_ExecutesSuccessfullyAndInTheCorrectOrder_WhenHandlerAndBehaviorsAreConfigured()
     {
         // Arrange
         var factory = new IntegrationTestFactory()
@@ -38,7 +38,7 @@ public class SenderTests
                                                      .AddBehavior(typeof(AnotherTestBehavior<,>), ServiceLifetime.Singleton));
             });
         factory.Build();
-        var sender = factory.CreateSender();
+        var mediator = factory.CreateMediator();
         var testBehavior = factory.ServiceProvider.GetServices<IBehavior<TestRequest, int>>().OfType<TestBehavior<TestRequest, int>>().Single();
         var anotherTestBehavior = factory.ServiceProvider.GetServices<IBehavior<TestRequest, int>>().OfType<AnotherTestBehavior<TestRequest, int>>().Single();
         var request = new TestRequest
@@ -47,7 +47,7 @@ public class SenderTests
         };
 
         // Act
-        var result = await sender.SendAsync(request, TestContext.Current.CancellationToken);
+        var result = await mediator.HandleAsync(request, TestContext.Current.CancellationToken);
 
         // Assert
         Assert.Equal(request.Value, result);

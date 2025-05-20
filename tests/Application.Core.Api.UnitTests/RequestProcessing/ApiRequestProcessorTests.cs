@@ -15,14 +15,14 @@ public class ApiRequestProcessorTests
     private readonly Fixture _fixture;
     private readonly ApiRequestProcessor _processor;
     private readonly IApiResultMapper _resultMapper;
-    private readonly ISender _sender;
+    private readonly IMediator _mediator;
 
     public ApiRequestProcessorTests()
     {
         _fixture = new();
-        _sender = Substitute.For<ISender>();
+        _mediator = Substitute.For<IMediator>();
         _resultMapper = Substitute.For<IApiResultMapper>();
-        _processor = new(_sender, _resultMapper, Substitute.For<ILogger<ApiRequestProcessor>>());
+        _processor = new(_mediator, _resultMapper, Substitute.For<ILogger<ApiRequestProcessor>>());
     }
 
     [Fact]
@@ -31,7 +31,7 @@ public class ApiRequestProcessorTests
         // Arrange
         ApiResult expectedApiResult = new Ok(_fixture.Create<int>());
         var expectedResult = Results.Ok(_fixture.Create<int>());
-        _sender.SendAsync(Arg.Any<TestRequest>(), Arg.Any<CancellationToken>()).ReturnsForAnyArgs(expectedApiResult);
+        _mediator.HandleAsync(Arg.Any<TestRequest>(), Arg.Any<CancellationToken>()).ReturnsForAnyArgs(expectedApiResult);
         _resultMapper.Map(Arg.Any<ApiResult>()).ReturnsForAnyArgs(expectedResult);
         var request = _fixture.Create<TestRequest>();
 
@@ -39,7 +39,7 @@ public class ApiRequestProcessorTests
         var result = await _processor.ProcessAsync(request, TestContext.Current.CancellationToken);
 
         // Assert
-        await _sender.Received(1).SendAsync(request, Arg.Any<CancellationToken>());
+        await _mediator.Received(1).HandleAsync(request, Arg.Any<CancellationToken>());
         _resultMapper.Received(1).Map(expectedApiResult);
         Assert.Equal(expectedResult, result);
     }

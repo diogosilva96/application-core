@@ -25,7 +25,7 @@ internal class IntegrationTestFactory : IDisposable
         ServiceProvider = _serviceCollection.BuildServiceProvider();
     }
 
-    public ISender CreateSender()
+    public IMediator CreateMediator()
     {
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (ServiceProvider is null)
@@ -33,6 +33,6 @@ internal class IntegrationTestFactory : IDisposable
             Build();
         }
 
-        return ServiceProvider!.GetRequiredService<ISender>();
+        return ServiceProvider!.GetRequiredService<IMediator>();
     }
 }

@@ -6,7 +6,7 @@
 
 - `IHandler<TRequest, TResponse>` – Defines a handler for a given request and response type.
 - `IBehavior<TRequest, TResponse>` – Enables decorator-style behavior wrapping around handlers that can be used for tracing, metrics, logging, validation, etc.
-- `ISender` – The entry point for sending requests and triggering the appropriate handler(s).
+- `IMediator` – The entry point for mediating the request processing and triggering the appropriate handler(s).
 - Automatic handler registration via assembly scanning (using reflection).
 
 > 🧠 **Note:** The order in which behaviors are registered is important — they will be executed in the order they are added.

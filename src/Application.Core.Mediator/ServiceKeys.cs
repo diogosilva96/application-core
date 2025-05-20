@@ -6,7 +6,7 @@
 internal static class ServiceKeys
 {
     /// <summary>
-    /// Gets the key for the sender method cache.
+    /// Gets the key for the mediator method cache.
     /// </summary>
-    public const string SenderMethodCache = "SenderMethodCache";
+    public const string MediatorMethodCache = "Application.Core.Mediator.MethodCache";
 }

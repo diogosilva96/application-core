@@ -18,9 +18,9 @@ public class MediatorConfiguration
     public IReadOnlyList<ServiceDescriptor> ServicesToRegister => _servicesToRegister;
 
     /// <summary>
-    /// Gets or sets the lifetime of <see cref="ISender"/>. Defaults to <see cref="ServiceLifetime.Transient"/>.
+    /// Gets or sets the lifetime of <see cref="IMediator"/>. Defaults to <see cref="ServiceLifetime.Transient"/>.
     /// </summary>
-    public ServiceLifetime SenderLifetime { get; set; } = ServiceLifetime.Transient;
+    public ServiceLifetime MediatorLifeTime { get; set; } = ServiceLifetime.Transient;
     
 
     /// <summary>

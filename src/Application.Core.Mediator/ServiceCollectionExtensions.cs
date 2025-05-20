@@ -27,8 +27,8 @@ public static class ServiceCollectionExtensions
             serviceCollection.Add(service);
         }
 
-        serviceCollection.AddKeyedSingleton<ConcurrentDictionary<Type, MethodInfo>>(ServiceKeys.SenderMethodCache);
-        serviceCollection.Add(new(typeof(ISender), typeof(Sender), configuration.SenderLifetime));
+        serviceCollection.AddKeyedSingleton<ConcurrentDictionary<Type, MethodInfo>>(ServiceKeys.MediatorMethodCache);
+        serviceCollection.Add(new(typeof(IMediator), typeof(Mediator), configuration.MediatorLifeTime));
         
         return serviceCollection;
     }

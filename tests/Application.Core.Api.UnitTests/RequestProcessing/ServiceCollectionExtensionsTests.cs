@@ -14,7 +14,7 @@ public class ServiceCollectionExtensionsTests
     {
         _serviceCollection = [];
         _serviceCollection.AddLogging()
-                          .AddSingleton(Substitute.For<ISender>())
+                          .AddSingleton(Substitute.For<IMediator>())
                           .AddSingleton(Substitute.For<IApiResultMapper>())
                           .AddHttpContextAccessor();
     }

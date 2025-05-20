@@ -10,39 +10,39 @@ public class ServiceCollectionExtensionsTests
     private readonly ServiceCollection _serviceCollection = [];
 
     [Fact]
-    public void AddMediator_RegistersSender()
+    public void AddMediator_RegistersMediator()
     {
         // Act
         using var serviceProvider = _serviceCollection.AddMediator()
                                                       .BuildServiceProvider();
 
         // Assert
-        Assert.NotNull(serviceProvider.GetService<ISender>());
+        Assert.NotNull(serviceProvider.GetService<IMediator>());
     }
-    
+
     [Fact]
-    public void AddMediator_RegistersSenderMethodCache()
+    public void AddMediator_RegistersMediatorMethodCache()
     {
         // Act
         using var serviceProvider = _serviceCollection.AddMediator()
                                                       .BuildServiceProvider();
 
         // Assert
-        Assert.NotNull(serviceProvider.GetKeyedService<ConcurrentDictionary<Type, MethodInfo>>(ServiceKeys.SenderMethodCache));
+        Assert.NotNull(serviceProvider.GetKeyedService<ConcurrentDictionary<Type, MethodInfo>>(ServiceKeys.MediatorMethodCache));
     }
-    
+
     [Fact]
     public void AddMediator_RegistersExpectedTypes_WhenUsingMediatorConfiguratorAction()
     {
         // Arrange
-        Type[] expectedTypesToRegister = 
+        Type[] expectedTypesToRegister =
         [
-            typeof(ISender),
+            typeof(IMediator),
             typeof(IBehavior<TestLogRequest, string>),
             typeof(IHandler<TestLogRequest, string>),
             typeof(IHandler<TestRequest, int>)
         ];
-        
+
         // Act
         var serviceProvider = _serviceCollection.AddMediator(configurator => configurator.AddBehavior(typeof(TestBehavior<,>))
                                                                                          .AddHandlersFromAssemblyContaining<TestLogRequest>())

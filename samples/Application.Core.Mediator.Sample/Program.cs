@@ -22,13 +22,13 @@ services.AddMediator(configurator => configurator
 await using var serviceProvider = services.BuildServiceProvider();
 
 var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
-// resolve the mediator's sender
-var sender = serviceProvider.GetRequiredService<ISender>();
+// resolve the mediator
+var mediator = serviceProvider.GetRequiredService<IMediator>();
 
-// actually send the request
+// actually handle the request
 var ping = new Ping { TimestampUtc = DateTimeOffset.UtcNow };
-var pong = await sender.SendAsync(ping);
+var pong = await mediator.HandleAsync(ping);
 
-logger.LogInformation("Got response {Pong} from sender for request {Ping}", pong, ping);
+logger.LogInformation("Got response {Pong} from mediator for request {Ping}", pong, ping);
 
 Console.ReadKey();
