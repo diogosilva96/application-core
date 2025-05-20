@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Application.Core.Api.Validation;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Application.Core.Api.Result.Mapping;
 
@@ -16,6 +17,7 @@ public static class ServiceCollectionExtensions
     {
         ArgumentNullException.ThrowIfNull(serviceCollection);
         
-        return serviceCollection.AddTransient<IApiResultMapper, ApiResultMapper>();
+        return serviceCollection.AddTransient<IApiResultMapper, ApiResultMapper>()
+                                .AddValidationFailureMapping();
     }
 }

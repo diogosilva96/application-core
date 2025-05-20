@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Application.Core.Api.Validation;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Core.Api.Result.Mapping;
 
 /// <summary>
 /// Represents a mapper component that maps <see cref="ApiResult" /> to <see cref="IResult" />.
 /// </summary>
-internal class ApiResultMapper : IApiResultMapper
+internal class ApiResultMapper(IValidationFailureMapper validationFailureMapper) : IApiResultMapper
 {
     /// <inheritdoc />
     public IResult Map(ApiResult apiResult)
@@ -25,6 +26,18 @@ internal class ApiResultMapper : IApiResultMapper
                 problemDetails.Status,
                 problemDetails.Title,
                 problemDetails.Type,
-                problemDetails.Extensions));
+                MapExtensions(problemDetails.Extensions)));
+    }
+
+    private IReadOnlyDictionary<string, object?> MapExtensions(IReadOnlyDictionary<string, object?> extensions)
+    {
+        if (!extensions.TryGetValue(ProblemDetailsExtensionKeys.Errors, out var errors) || errors is not IReadOnlyDictionary<string, string[]> errorsDictionary) return extensions;
+        
+        var mappedErrors = validationFailureMapper.Map(errorsDictionary);
+        var mappedExtensions = extensions.Where(e => !string.Equals(e.Key, ProblemDetailsExtensionKeys.Errors, StringComparison.OrdinalIgnoreCase))
+                                         .ToDictionary(StringComparer.OrdinalIgnoreCase);
+        mappedExtensions.Add(ProblemDetailsExtensionKeys.Errors, mappedErrors);
+        return mappedExtensions;
+
     }
 }
