@@ -19,6 +19,7 @@ builder.Services
 builder.Services
        .AddApiRequestProcessor()
        .AddApiResultMapping()
+       .AddValidationFailureMapping(typeof(Program).Assembly) // This allows us to use the validation failure property mapper on the endpoints
        .AddMediator(c => c.AddValidationBehavior()
                           .AddHandlersFromAssemblyContaining<Program>());
 
@@ -33,8 +34,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("api/echo", (IApiRequestProcessor processor, [FromBody] EchoRequest request, CancellationToken cancellationToken) => 
-   processor.ProcessAsync(request, cancellationToken))
-.WithName("Echo");
+app.MapPost("api/echo", (IApiRequestProcessor processor, [FromBody] EchoRequest request, CancellationToken cancellationToken)
+       => processor.ProcessAsync(request, cancellationToken))
+   .WithValidationFailurePropertyMapper<EchoValidationFailurePropertyMapper>();
 
 app.Run();
