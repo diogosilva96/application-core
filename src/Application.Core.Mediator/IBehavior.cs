@@ -1,9 +1,9 @@
 ﻿namespace Application.Core.Mediator;
 
 /// <summary>
-/// Represents a handler behavior for a given request and response type.
+/// Represents a behavior abstraction for a given request and response type.
 /// </summary>
-/// <typeparam name="TRequest">The request type.</typeparam>
+/// <typeparam name="TRequest">The request type. Must implement <see cref="IRequest{TResponse}"/>.</typeparam>
 /// <typeparam name="TResponse">The response type.</typeparam>
 public interface IBehavior<in TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
