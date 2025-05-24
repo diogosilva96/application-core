@@ -28,6 +28,7 @@ public static class ServiceCollectionExtensions
         }
 
         serviceCollection.AddKeyedSingleton<ConcurrentDictionary<Type, MethodInfo>>(ServiceKeys.MediatorMethodCache);
+        serviceCollection.AddTransient(typeof(IRequestPipeline<,>), typeof(RequestPipeline<,>));
         serviceCollection.Add(new(typeof(IMediator), typeof(Mediator), configuration.MediatorLifeTime));
         
         return serviceCollection;

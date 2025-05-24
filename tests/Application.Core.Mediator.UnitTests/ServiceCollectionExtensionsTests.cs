@@ -10,37 +10,33 @@ public class ServiceCollectionExtensionsTests
     private readonly ServiceCollection _serviceCollection = [];
 
     [Fact]
-    public void AddMediator_RegistersMediator()
+    public void AddMediator_RegistersExpectedServices()
     {
+        // Arrange
+        // Register handler to be able to ensure that the IRequestPipeline is registered
+        _serviceCollection.AddTransient<IHandler<TestLogRequest, string>, TestLogRequestHandler>(); 
+        
         // Act
         using var serviceProvider = _serviceCollection.AddMediator()
                                                       .BuildServiceProvider();
 
         // Assert
         Assert.NotNull(serviceProvider.GetService<IMediator>());
-    }
-
-    [Fact]
-    public void AddMediator_RegistersMediatorMethodCache()
-    {
-        // Act
-        using var serviceProvider = _serviceCollection.AddMediator()
-                                                      .BuildServiceProvider();
-
-        // Assert
         Assert.NotNull(serviceProvider.GetKeyedService<ConcurrentDictionary<Type, MethodInfo>>(ServiceKeys.MediatorMethodCache));
+        Assert.NotNull(serviceProvider.GetService<IRequestPipeline<TestLogRequest, string>>());
     }
-
+    
     [Fact]
-    public void AddMediator_RegistersExpectedTypes_WhenUsingMediatorConfiguratorAction()
+    public void AddMediator_RegistersExpectedTypes_WhenConfiguringMediatorConfiguration()
     {
         // Arrange
-        Type[] expectedTypesToRegister =
+        Type[] expectedRegisteredTypes =
         [
             typeof(IMediator),
             typeof(IBehavior<TestLogRequest, string>),
             typeof(IHandler<TestLogRequest, string>),
-            typeof(IHandler<TestRequest, int>)
+            typeof(IHandler<TestRequest, int>),
+            typeof(IRequestPipeline<TestLogRequest, string>)
         ];
 
         // Act
@@ -49,6 +45,6 @@ public class ServiceCollectionExtensionsTests
                                                 .BuildServiceProvider();
 
         // Assert
-        Assert.All(expectedTypesToRegister, expectedType => Assert.NotNull(serviceProvider.GetService(expectedType)));
+        Assert.All(expectedRegisteredTypes, expectedType => Assert.NotNull(serviceProvider.GetService(expectedType)));
     }
 }

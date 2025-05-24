@@ -14,43 +14,17 @@ internal class Mediator(IServiceProvider serviceProvider, [FromKeyedServices(Ser
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        var behaviorType = typeof(IBehavior<,>).MakeGenericType(request.GetType(), typeof(TResponse));
-        var behaviors = serviceProvider.GetServices(behaviorType).OfType<object>().ToArray();
-        
-        return HandleInternalAsync(0);
-        
-        Task<TResponse> HandleInternalAsync(int index)
-        {
-            var behaviorsSlice = behaviors.AsSpan()[index..];
-            if (behaviorsSlice.Length == 0) return HandleUsingHandlerAsync(request, cancellationToken);
-
-            if (!methodCache.TryGetValue(behaviorType, out var behaviorMethod))
-            {
-                behaviorMethod = behaviorType.GetMethod(nameof(IBehavior<IRequest<TResponse>, TResponse>.HandleAsync))!;
-                methodCache.TryAdd(behaviorType, behaviorMethod);
-            }
-            
-            var currentBehavior = behaviorsSlice[0];
-            return (Task<TResponse>)(behaviorMethod.Invoke(currentBehavior, [request, () => HandleInternalAsync(index + 1), cancellationToken]) ?? throw new InvalidOperationException($"Behavior '{currentBehavior.GetType().Name}' for request of type '{request.GetType().Name}' and response of type '{typeof(TResponse).Name}' should not return null when handling the request."));
-        }
-    }
-
-    private Task<TResponse> HandleUsingHandlerAsync<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken)
-    {
-        var handlerType = typeof(IHandler<,>).MakeGenericType(request.GetType(), typeof(TResponse));
-        var handler = serviceProvider.GetService(handlerType);
-        if (handler is null)
-        {
-            throw new InvalidOperationException($"Could not find handler for request of type {request.GetType()} and response of type {typeof(TResponse).Name}.");
-        }
-        
+        var requestPipelineType = typeof(IRequestPipeline<,>).MakeGenericType(request.GetType(), typeof(TResponse));
+        var requestPipeline = serviceProvider.GetRequiredService(requestPipelineType);
+       
         // ReSharper disable once InvertIf
-        if (!methodCache.TryGetValue(handlerType, out var handlerMethod))
+        if (!methodCache.TryGetValue(requestPipelineType, out var executeMethod))
         {
-            handlerMethod = handlerType.GetMethod(nameof(IHandler<IRequest<TResponse>, TResponse>.HandleAsync))!;
-            methodCache.TryAdd(handlerType, handlerMethod);
+            executeMethod = requestPipelineType.GetMethod(nameof(IRequestPipeline<IRequest<TResponse>, TResponse>.ExecuteAsync))!;
+            methodCache.TryAdd(requestPipelineType, executeMethod);
         }
-        
-        return (Task<TResponse>)(handlerMethod.Invoke(handler, [request, cancellationToken ]) ?? throw new InvalidOperationException($"Handler '{handlerType.Name}' for request of type '{request.GetType().Name}' and response of type '{typeof(TResponse).Name}' should not return null when handling the request."));
+
+        return (Task<TResponse>)(executeMethod.Invoke(requestPipeline, [request, cancellationToken]) ??
+                                 throw new InvalidOperationException($"Request pipeline '{requestPipeline.GetType().Name}' for request of type '{request.GetType().Name}' and response of type '{typeof(TResponse).Name}' should not return null when handling the request."));
     }
 }

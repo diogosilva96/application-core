@@ -1,4 +1,5 @@
 ﻿using Application.Core.Mediator.UnitTests.Utils;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Application.Core.Mediator.UnitTests;
 
@@ -55,23 +56,31 @@ public class MediatorConfigurationTests
     [Fact]
     public void AddHandlersFromAssemblyContainingType_RegistersTheExpectedHandlers()
     {
+        // Arrange
+        const ServiceLifetime lifetime = ServiceLifetime.Singleton;
+        
         // Act
-        _mediatorConfiguration.AddHandlersFromAssemblyContaining<TestLogRequest>();
+        _mediatorConfiguration.AddHandlersFromAssemblyContaining<TestLogRequest>(lifetime);
 
         // Assert
         Assert.All(_expectedHandlerTypesToRegister, expectedType =>
-            Assert.Single(_mediatorConfiguration.ServicesToRegister, service => service.ServiceType == expectedType));
+            Assert.Single(_mediatorConfiguration.ServicesToRegister, service => service.ServiceType == expectedType &&
+                                                                                service.Lifetime == lifetime));
     }
 
     [Fact]
     public void AddHandlersFromAssemblies_RegistersTheExpectedHandlers()
     {
+        // Arrange
+        const ServiceLifetime lifetime = ServiceLifetime.Singleton;
+        
         // Act
-        _mediatorConfiguration.AddHandlersFromAssemblies(typeof(TestLogRequest).Assembly);
+        _mediatorConfiguration.AddHandlersFromAssemblies([typeof(TestLogRequest).Assembly], lifetime);
 
         // Assert
         Assert.All(_expectedHandlerTypesToRegister, expectedType =>
-            Assert.Single(_mediatorConfiguration.ServicesToRegister, service => service.ServiceType == expectedType));
+            Assert.Single(_mediatorConfiguration.ServicesToRegister, service => service.ServiceType == expectedType &&
+                                                                                service.Lifetime == lifetime));
     }
 
     [Fact]
@@ -79,7 +88,7 @@ public class MediatorConfigurationTests
     {
         // Act
         // ReSharper disable once ConvertToLocalFunction
-        var action = () => _mediatorConfiguration.AddHandlersFromAssemblies();
+        var action = () => _mediatorConfiguration.AddHandlersFromAssemblies([]);
 
         Assert.Throws<ArgumentException>(action);
     }

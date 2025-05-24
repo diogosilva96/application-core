@@ -1,4 +1,5 @@
 ﻿namespace Application.Core.Mediator;
+
 /// <summary>
 /// Represents a request pipeline component.
 /// </summary>
